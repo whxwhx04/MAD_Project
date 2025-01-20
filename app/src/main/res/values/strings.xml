@@ -1,3 +1,34 @@
 <resources>
-    <string name="app_name">MaD</string>
+    <string name="price">Price</string>
+    <string name="school">School</string>
+    <string name="course">Course</string>
+    <string name="condition">Condition</string>
+
+    <string-array name="price_options">
+        <item>Price</item>
+        <item>Low to High</item>
+        <item>High to Low</item>
+    </string-array>
+
+    <string-array name="school_options">
+        <item>School</item>
+        <item>Engineering</item>
+        <item>Business</item>
+        <item>Design</item>
+    </string-array>
+
+    <string-array name="course_options">
+        <item>Course</item>
+        <item>Course 1</item>
+        <item>Course 2</item>
+        <item>Course 3</item>
+    </string-array>
+
+    <string-array name="condition_options">
+        <item>Condition</item>
+        <item>New</item>
+        <item>Used</item>
+        <item>Refurbished</item>
+    </string-array>
+
 </resources>
