@@ -27,8 +27,8 @@
     <string-array name="condition_options">
         <item>Condition</item>
         <item>New</item>
+        <item>Like New</item>
         <item>Used</item>
-        <item>Refurbished</item>
     </string-array>
 
 </resources>
