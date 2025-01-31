@@ -13,6 +13,9 @@
         android:theme="@style/Theme.MaD"
         tools:targetApi="31">
         <activity
+            android:name=".acc_setting"
+            android:exported="false" />
+        <activity
             android:name=".create_post"
             android:exported="false" />
         <activity

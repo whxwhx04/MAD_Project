@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".create_post">
+    tools:context=".acc_setting">
 
     <ImageView
         android:id="@+id/main_bg"
@@ -21,7 +21,7 @@
         app:srcCompat="@drawable/gradient" />
 
     <ImageView
-        android:id="@+id/imageView9"
+        android:id="@+id/imageView8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@drawable/header"
@@ -32,8 +32,19 @@
         app:layout_constraintTop_toTopOf="@+id/main_bg"
         app:layout_constraintVertical_bias="0.0" />
 
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/seetingslogo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imageView8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.051" />
+
     <ImageButton
-        android:id="@+id/back_comm"
+        android:id="@+id/back_acc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
@@ -43,48 +54,36 @@
         app:layout_constraintHorizontal_bias="0.044"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/main_bg"
-        app:layout_constraintVertical_bias="0.0"  />
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
-        android:id="@+id/post_img"
+        android:id="@+id/pfp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@tools:sample/avatars"
-        app:layout_constraintBottom_toBottomOf="@+id/main_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.169" />
+        app:layout_constraintVertical_bias="0.165" />
 
     <Button
-        android:id="@+id/post_img_up"
-        android:layout_width="244dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/black"
-        android:text="Upload Image"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.336" />
-
-    <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/pfp_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/createpost"
+        android:backgroundTint="@color/black"
+        android:text="Edit Profile Picture"
         app:layout_constraintBottom_toBottomOf="@+id/main_bg"
-        app:layout_constraintEnd_toEndOf="@+id/main_bg"
-        app:layout_constraintStart_toStartOf="@+id/main_bg"
-        app:layout_constraintTop_toTopOf="@+id/main_bg"
-        app:layout_constraintVertical_bias="0.045" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.332" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="413dp"
-        android:layout_height="300dp"
+        android:id="@+id/linearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
         android:background="#F3F3D3"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="@+id/main_bg"
@@ -92,27 +91,55 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.663">
+        app:layout_constraintVertical_bias="1.0">
 
         <TextView
+            android:id="@+id/textView2"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="Share Your Thoughts"
+            android:layout_height="wrap_content"
+            android:text="Edit User Name"
             android:textColor="#008000"
             android:textSize="16sp"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/post_des"
+            android:id="@+id/user_name"
             android:layout_width="match_parent"
-            android:layout_height="76dp"
+            android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Enter your thoughts"
+            android:hint="New User Name"
             android:inputType="text"
-            android:maxLength="500" />
+            android:maxLength="20" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Edit User Password"
+            android:textColor="#008000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/user_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Please enter new password"
+            android:inputType="textPassword"
+            android:maxLength="10" />
+
+        <EditText
+            android:id="@+id/cfm_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Please confirm password"
+            android:inputType="textPassword"
+            android:maxLength="10" />
 
         <Spinner
-            android:id="@+id/post_sch"
+            android:id="@+id/acc_course"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
@@ -120,40 +147,28 @@
             android:popupBackground="#FFFFFF" />
 
         <Spinner
-            android:id="@+id/post_course"
+            android:id="@+id/acc_sch"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="20dp"
             android:entries="@array/course_options"
             android:popupBackground="#FFFFFF" />
 
+        <Button
+            android:id="@+id/acc_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/green"
+            android:text="Update Account" />
+
+        <Button
+            android:id="@+id/log_out"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Log Out"
+            android:backgroundTint="@color/black"/>
+
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="320dp"
-        android:layout_height="49dp"
-        android:text="*Note: Please be mindful of your language Be respectful towards others!"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.885" />
-
-    <Button
-        android:id="@+id/create_post"
-        android:layout_width="244dp"
-        android:layout_height="53dp"
-        android:text="post"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976"
-        android:backgroundTint="@color/black"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
