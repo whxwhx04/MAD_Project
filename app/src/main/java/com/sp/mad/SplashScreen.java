@@ -2,6 +2,7 @@ package com.sp.mad;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -13,10 +14,14 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
         // Start the MainPage activity after 3 seconds
+
+        MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sample);
+        mediaPlayer.setVolume(1.0f, 1.0f); // Left and Right volume
+        mediaPlayer.start();
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Start MainPage activity
                 Intent intent = new Intent(SplashScreen.this, LoginPage.class);
                 startActivity(intent);
 

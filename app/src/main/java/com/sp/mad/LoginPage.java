@@ -19,6 +19,7 @@ public class LoginPage extends AppCompatActivity {
     private TextView rectangleTextView;
     private TextView forgotPasswordTextView;
     private TextView signUpTextView;
+    private Button guestButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +32,9 @@ public class LoginPage extends AppCompatActivity {
         loginButton = findViewById(R.id.reset_pwd_button);
         loginImageView = findViewById(R.id.login);
         rectangleTextView = findViewById(R.id.rectangle);
-        forgotPasswordTextView = findViewById(R.id.reset_pwd_button); // Ensure ID matches your XML
+        forgotPasswordTextView = findViewById(R.id.log_in); // Ensure ID matches your XML
         signUpTextView = findViewById(R.id.signup); // Ensure ID matches your XML
+        guestButton = findViewById(R.id.guest);
 
         // Set an onClickListener for the login button
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +75,16 @@ public class LoginPage extends AppCompatActivity {
             public void onClick(View v) {
                 // Navigate to the Create Account page
                 Intent intent = new Intent(LoginPage.this, CreateAccountActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // Set an onClickListener for the "Guest Mode" button
+        guestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate to the Create Account page
+                Intent intent = new Intent(LoginPage.this, MainPage.class);
                 startActivity(intent);
             }
         });

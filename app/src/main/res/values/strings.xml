@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">MaD</string>
+    <string name="app_name">MAD Project</string>
+    <string name="MAD_Project" />
 </resources>

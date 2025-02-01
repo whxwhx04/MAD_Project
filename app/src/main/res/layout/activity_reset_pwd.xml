@@ -22,7 +22,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="81dp"
-        android:layout_marginBottom="276dp"
+        android:layout_marginBottom="203dp"
         android:text="*A reset password link will be sent to your student email"
         android:textAlignment="center"
         android:textSize="18dp"
@@ -34,8 +34,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="23dp"
-        android:layout_marginBottom="432dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginBottom="373dp"
         android:background="@drawable/rounded_corner"
         android:hint="STUDENT ID"
         android:inputType="text"
@@ -47,13 +47,10 @@
         android:layout_width="174dp"
         android:layout_height="92dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="114dp"
-        android:layout_marginTop="99dp"
-        android:layout_marginEnd="123dp"
-        android:layout_marginBottom="538dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="116dp"
+        android:layout_marginEnd="121dp"
         android:src="@drawable/reset_pwd" />
 
     <EditText
@@ -62,8 +59,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="23dp"
-        android:layout_marginBottom="360dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginBottom="276dp"
         android:background="@drawable/rounded_corner"
         android:hint="STUDENT EMAIL"
         android:inputType="text"
@@ -77,7 +74,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="183dp"
+        android:layout_marginBottom="127dp"
         android:backgroundTint="@color/black"
         android:text="SEND RESET LINK" />
 
@@ -86,7 +83,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="109dp"
+        android:layout_marginBottom="88dp"
         android:src="@drawable/or"
         app:srcCompat="@drawable/or" />
 
