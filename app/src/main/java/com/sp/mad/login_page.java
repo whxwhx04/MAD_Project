@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class LoginPage extends AppCompatActivity {
+public class login_page extends AppCompatActivity {
 
     // UI Components
     private EditText studentIdEditText;
@@ -19,11 +19,12 @@ public class LoginPage extends AppCompatActivity {
     private TextView rectangleTextView;
     private TextView forgotPasswordTextView;
     private TextView signUpTextView;
+    private Button guestButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login); // Ensure this matches your XML file name
+        setContentView(R.layout.login_page); // Ensure this matches your XML file name
 
         // Initialize UI components
         studentIdEditText = findViewById(R.id.email);
@@ -31,8 +32,9 @@ public class LoginPage extends AppCompatActivity {
         loginButton = findViewById(R.id.reset_pwd_button);
         loginImageView = findViewById(R.id.login);
         rectangleTextView = findViewById(R.id.rectangle);
-        forgotPasswordTextView = findViewById(R.id.reset_pwd_button); // Ensure ID matches your XML
+        forgotPasswordTextView = findViewById(R.id.log_in); // Ensure ID matches your XML
         signUpTextView = findViewById(R.id.signup); // Ensure ID matches your XML
+        guestButton = findViewById(R.id.guest);
 
         // Set an onClickListener for the login button
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +64,7 @@ public class LoginPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Navigate to the Reset Password page
-                Intent intent = new Intent(LoginPage.this, ResetPasswordActivity.class);
+                Intent intent = new Intent(login_page.this, reset_pwd.class);
                 startActivity(intent);
             }
         });
@@ -72,7 +74,17 @@ public class LoginPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Navigate to the Create Account page
-                Intent intent = new Intent(LoginPage.this, CreateAccountActivity.class);
+                Intent intent = new Intent(login_page.this, create_account.class);
+                startActivity(intent);
+            }
+        });
+
+        // Set an onClickListener for the "Guest Mode" button
+        guestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate to the Create Account page
+                Intent intent = new Intent(login_page.this, mainpage.class);
                 startActivity(intent);
             }
         });

@@ -1,4 +1,7 @@
 <resources>
+    <string name="app_name">MAD Project</string>
+    <string name="MAD_Project" />
+
     <string name="price">Price</string>
     <string name="school">School</string>
     <string name="course">Course</string>

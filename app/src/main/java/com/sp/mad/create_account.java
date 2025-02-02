@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class CreateAccountActivity extends AppCompatActivity {
+public class create_account extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,7 +20,7 @@ public class CreateAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Navigate to Login activity
-                Intent intent = new Intent(CreateAccountActivity.this, LoginPage.class);
+                Intent intent = new Intent(create_account.this, login_page.class);
                 startActivity(intent);
                 finish(); // Optionally finish the current activity
             }

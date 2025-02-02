@@ -7,11 +7,14 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/SP_ThriftHub"
+        android:label="@string/MAD_Project"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MaD"
+        android:theme="@style/Theme.MAD_project"
         tools:targetApi="31">
+        <activity
+            android:name=".post_listing"
+            android:exported="false" />
         <activity
             android:name=".acc_setting"
             android:exported="false" />
@@ -31,13 +34,13 @@
             android:name=".mainfilter"
             android:exported="false" />
         <activity
-            android:name=".ResetPasswordActivity"
+            android:name=".reset_pwd"
             android:exported="false" />
         <activity
-            android:name=".CreateAccountActivity"
+            android:name=".create_account"
             android:exported="false" /> <!-- SplashScreen Activity -->
         <activity
-            android:name=".SplashScreen"
+            android:name=".splash_screen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,10 +49,10 @@
             </intent-filter>
         </activity> <!-- MainPage Activity -->
         <activity
-            android:name=".MainPage"
-            android:exported="false" /> <!-- LoginPage Activity -->
+            android:name=".mainpage"
+            android:exported="true" /> <!-- LoginPage Activity -->
         <activity
-            android:name=".LoginPage"
+            android:name=".login_page"
             android:exported="false" />
 
         <meta-data

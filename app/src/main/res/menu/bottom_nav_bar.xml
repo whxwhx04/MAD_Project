@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/explore"
+        android:icon="@drawable/baseline_star_outline_24"
+        android:title="Explore" />
+    <item
+        android:id="@+id/community"
+        android:icon="@drawable/baseline_star_outline_24"
+        android:title="Community" />
+    <item
+        android:id="@+id/sell"
+        android:icon="@drawable/baseline_star_outline_24"
+        android:title="Sell" />
+    <item
+        android:id="@+id/updates"
+        android:icon="@drawable/baseline_star_outline_24"
+        android:title="Updates" />
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/baseline_star_outline_24"
+        android:title="Profile" />
+</menu>
