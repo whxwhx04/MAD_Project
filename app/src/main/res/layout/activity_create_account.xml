@@ -16,20 +16,6 @@
         android:background="#fafafa" />
 
     <EditText
-        android:id="@+id/cfm_password"
-        android:layout_width="370dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="150dp"
-        android:background="@drawable/rounded_corner"
-        android:hint="CONFIRM PASSWORD"
-        android:inputType="text"
-        android:padding="18dp"
-        android:textSize="20sp" />
-
-    <EditText
         android:id="@+id/name"
         android:layout_width="370dp"
         android:layout_height="wrap_content"
@@ -40,6 +26,7 @@
         android:background="@drawable/rounded_corner"
         android:hint="NAME"
         android:inputType="text"
+        android:maxLength="20"
         android:padding="18dp"
         android:textSize="20sp" />
 
@@ -54,6 +41,7 @@
         android:background="@drawable/rounded_corner"
         android:hint="STUDENT ID"
         android:inputType="text"
+        android:maxLength="8"
         android:padding="18dp"
         android:textSize="20sp" />
 
@@ -67,23 +55,9 @@
         android:layout_alignParentBottom="false"
         android:layout_centerInParent="true"
         android:layout_marginStart="122dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="77dp"
         android:layout_marginEnd="115dp"
         android:src="@drawable/create_acc" />
-
-    <EditText
-        android:id="@+id/email"
-        android:layout_width="370dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="17dp"
-        android:layout_marginBottom="298dp"
-        android:background="@drawable/rounded_corner"
-        android:hint="STUDENT EMAIL"
-        android:inputType="text"
-        android:padding="18dp"
-        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/password"
@@ -95,12 +69,43 @@
         android:layout_marginBottom="223dp"
         android:background="@drawable/rounded_corner"
         android:hint="PASSWORD"
-        android:inputType="text"
+        android:inputType="textPassword"
+        android:maxLength="16"
+        android:padding="18dp"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/cfm_password"
+        android:layout_width="370dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="150dp"
+        android:background="@drawable/rounded_corner"
+        android:hint="CONFIRM PASSWORD"
+        android:inputType="textPassword"
+        android:maxLength="16"
+        android:padding="18dp"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="370dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="17dp"
+        android:layout_marginBottom="298dp"
+        android:background="@drawable/rounded_corner"
+        android:hint="STUDENT EMAIL"
+        android:inputType="textEmailAddress"
+        android:maxLength="50"
         android:padding="18dp"
         android:textSize="20sp" />
 
     <Button
-        android:id="@+id/reset_pwd_button"
+        android:id="@+id/signup_button"
         android:layout_width="370dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

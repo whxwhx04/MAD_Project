@@ -40,7 +40,23 @@
         android:src="@drawable/login" />
 
     <EditText
-        android:id="@+id/email"
+        android:id="@+id/student_id2"
+        android:layout_width="370dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="19dp"
+        android:layout_marginBottom="385dp"
+        android:background="@drawable/rounded_corner"
+        android:hint="STUDENT ID"
+        android:inputType="text"
+        android:padding="18dp"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/student_email"
         android:layout_width="370dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -48,7 +64,7 @@
         android:layout_marginEnd="17dp"
         android:layout_marginBottom="313dp"
         android:background="@drawable/rounded_corner"
-        android:hint="STUDENT ID"
+        android:hint="STUDENT EMAIL"
         android:inputType="text"
         android:padding="18dp"
         android:textSize="20sp" />
@@ -68,7 +84,7 @@
         android:textSize="20sp" />
 
     <Button
-        android:id="@+id/reset_pwd_button"
+        android:id="@+id/signup_button"
         android:layout_width="370dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
