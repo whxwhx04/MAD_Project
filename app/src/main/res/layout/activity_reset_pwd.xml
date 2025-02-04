@@ -39,6 +39,7 @@
         android:background="@drawable/rounded_corner"
         android:hint="STUDENT ID"
         android:inputType="text"
+        android:maxLength="8"
         android:padding="18dp"
         android:textSize="20sp" />
 

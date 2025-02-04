@@ -32,7 +32,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
-        android:id="@+id/imageView7"
+        android:id="@+id/acc_set"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/seetingslogo"
@@ -109,38 +109,36 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/user_pwd"
+            android:id="@+id/user_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Please enter new password"
-            android:inputType="textPassword"
-            android:maxLength="10" />
+            android:hint="Please enter email to change password"
+            android:inputType="text" />
 
-        <EditText
-            android:id="@+id/cfm_pwd"
+        <Button
+            android:id="@+id/change_pwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Please confirm password"
-            android:inputType="textPassword"
-            android:maxLength="10" />
-
-        <Spinner
-            android:id="@+id/acc_course"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:entries="@array/school_options"
-            android:popupBackground="#FFFFFF" />
+            android:text="Change password through email"
+            android:backgroundTint="@color/black"/>
 
         <Spinner
             android:id="@+id/acc_sch"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="20dp"
-            android:entries="@array/course_options"
+            android:entries="@array/school_options"
             android:popupBackground="#FFFFFF" />
+
+        <EditText
+            android:id="@+id/acc_course"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Enter Your Course"
+            android:inputType="text"
+            android:maxLength="6" />
 
         <Button
             android:id="@+id/acc_update"

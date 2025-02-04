@@ -40,6 +40,8 @@ public class mainpage extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.explore) {
                 // Handle Explore action
+                Intent intent = new Intent(mainpage.this, mainpage.class);
+                startActivity(intent);
                 return true;
             } else if (item.getItemId() == R.id.community) {
                 // Handle Community action
@@ -54,6 +56,8 @@ public class mainpage extends AppCompatActivity {
                 return true;
             } else if (item.getItemId() == R.id.profile) {
                 // Handle Profile action
+                Intent intent = new Intent(mainpage.this, profile_page.class);
+                startActivity(intent);
                 return true;
             } else
                 return false;

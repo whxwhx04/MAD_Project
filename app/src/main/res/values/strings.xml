@@ -15,16 +15,19 @@
 
     <string-array name="school_options">
         <item>School</item>
-        <item>Engineering</item>
-        <item>Business</item>
-        <item>Design</item>
+        <item>EEE</item>
+        <item>SB</item>
+        <item>MAD</item>
+        <item>MAE</item>
+        <item>SOC</item>
     </string-array>
 
     <string-array name="course_options">
         <item>Course</item>
-        <item>Course 1</item>
-        <item>Course 2</item>
-        <item>Course 3</item>
+        <item>DCPE</item>
+        <item>DEEE</item>
+        <item>DEB</item>
+        <item>DARCH</item>
     </string-array>
 
     <string-array name="condition_options">

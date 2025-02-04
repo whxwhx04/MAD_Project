@@ -52,6 +52,7 @@
         android:background="@drawable/rounded_corner"
         android:hint="STUDENT ID"
         android:inputType="text"
+        android:maxLength="8"
         android:padding="18dp"
         android:textSize="20sp" />
 
@@ -66,6 +67,7 @@
         android:background="@drawable/rounded_corner"
         android:hint="STUDENT EMAIL"
         android:inputType="text"
+        android:maxLength="50"
         android:padding="18dp"
         android:textSize="20sp" />
 
@@ -80,6 +82,7 @@
         android:background="@drawable/rounded_corner"
         android:hint="PASSWORD"
         android:inputType="text"
+        android:maxLength="16"
         android:padding="18dp"
         android:textSize="20sp" />
 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="dmIcon" type="id" />
+    <item name="accountName" type="id" />
+    <item name="user_school" type="id" />
+    <item name="user_course" type="id" />
+    <item name="likedPosts" type="id" />
+    <item name="savedItems" type="id" />
+    <item name="bidAsk" type="id" />
+    <item name="purchases" type="id" />
+    <item name="recyclerViewListings" type="id" />
+    <item name="profilePicture" type="id" />
+</resources>
