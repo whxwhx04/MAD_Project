@@ -27,11 +27,11 @@ public class MainPage extends AppCompatActivity {
 
         // Create sample data
         List<Item> itemList = new ArrayList<>();
-        itemList.add(new Item("Item 1", "Price $10", R.drawable.eg1));
-        itemList.add(new Item("Item 2", "Price $20", R.drawable.eg2));
+        itemList.add(new Item("Item 1", "Price $10", R.drawable.eg1, "Ke Liang", "Brand New", "EEE", "DCPE", "BNIB"));
+        itemList.add(new Item("Item 2", "Price $20", R.drawable.eg2, "John", "Heavily Used", "EEE", "DEEE", "Open for nego"));
 
         // Set Adapter
-        MyAdapter adapter = new MyAdapter(itemList);
+        MyAdapter adapter = new MyAdapter(this, itemList);
         recyclerView.setAdapter(adapter);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
