@@ -7,20 +7,24 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/MAD_Project"
+        android:label="MAD_Project"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MAD_Project"
         tools:targetApi="31">
         <activity
             android:name=".Seller_Listings"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".Buyer_Listings"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ResetPasswordActivity"
             android:exported="false" />
+        <activity
+            android:name=".Profile"
+            android:exported="false" />
+
         <activity
             android:name=".CreateAccountActivity"
             android:exported="false" /> <!-- SplashScreen Activity -->

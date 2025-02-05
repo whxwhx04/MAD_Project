@@ -1,4 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <item
+        android:id="@+id/nav_all_chats"
+        android:title="All Chats"
+        android:icon="@drawable/dm"/>
+    <item
+        android:id="@+id/nav_create_post"
+        android:title="Create Post"
+        android:icon="@drawable/create"/>
+    <item
+        android:id="@+id/nav_liked_posts"
+        android:title="Liked Posts"
+        android:icon="@drawable/liked_post"/>
+    <item
+        android:id="@+id/nav_saved_items"
+        android:title="Saved Items"
+        android:icon="@drawable/saved"/>
+    <item
+        android:id="@+id/nav_bid_ask"
+        android:title="Bid &amp; Ask"
+        android:icon="@drawable/bidask"/>
+    <item
+        android:id="@+id/nav_settings"
+        android:title="Settings"
+        android:icon="@drawable/setting"/>
+    <item
+        android:id="@+id/nav_logout"
+        android:title="Log Out"/>
 </menu>

@@ -49,7 +49,6 @@ public class Buyer_Listings extends AppCompatActivity {
 
             // Set data to UI elements
             listingTitle.setText(title);
-            //makeOffer.();
             listingPrice.setText(price);
             listingDescription.setText(description);
             listingAccount.setText(accountSeller);
@@ -58,5 +57,28 @@ public class Buyer_Listings extends AppCompatActivity {
             listingCourse.setText(course);
             itemImage.setImageResource(imageResId);
         }
+
+        // Make Offer button functionality
+        makeOffer.setOnClickListener(view -> {
+            // Handle the "Make Offer" button click
+            // You can navigate to another activity or show a dialog, etc.
+            // For example:
+            //Intent intentOffer = new Intent(Buyer_Listings.this, MakeOfferActivity.class);
+            //startActivity(intentOffer);
+        });
+
+        // Bid and Ask button functionality
+        bidask.setOnClickListener(view -> {
+            // Handle the "BID N ASK" button click
+            // You can open a new activity or show a dialog, etc.
+            // For example:
+            //Intent intentBid = new Intent(Buyer_Listings.this, BidAskActivity.class);
+            //startActivity(intentBid);
+        });
+
+        // Liked button functionality (optional)
+        btnLiked.setOnClickListener(view -> {
+            // Handle the "Liked" button click (toggle or show some UI feedback)
+        });
     }
 }
