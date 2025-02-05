@@ -1,24 +1,33 @@
 package com.sp.mad;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView; // This is required if you're using BottomNavigationView
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class mainpage extends AppCompatActivity {
 
+    private FirebaseFirestore db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainpage);
+
+        // Initialize Firestore
+        db = FirebaseFirestore.getInstance();
 
         // Initialize RecyclerView
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
@@ -27,14 +36,8 @@ public class mainpage extends AppCompatActivity {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        // Create sample data
-        List<Item> itemList = new ArrayList<>();
-        itemList.add(new Item("Item 1", "Price $10", R.drawable.eg1));
-        itemList.add(new Item("Item 2", "Price $20", R.drawable.eg2));
-
-        // Set Adapter
-        MyAdapter adapter = new MyAdapter(itemList);
-        recyclerView.setAdapter(adapter);
+        // Fetch listings from Firestore
+        fetchListings(recyclerView);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -62,8 +65,30 @@ public class mainpage extends AppCompatActivity {
             } else
                 return false;
         });
-
     }
 
+    private void fetchListings(RecyclerView recyclerView) {
+        CollectionReference listingsRef = db.collection("listing_items");
 
+        listingsRef.get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<Item> itemList = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String title = document.getString("itemName");
+                            String price = "Price: " + document.getString("price");
+                            String imageUrl = document.getString("imageUrl");
+
+                            // Add the item to the list
+                            itemList.add(new Item(title, price, imageUrl));
+                        }
+
+                        // Set Adapter
+                        MyAdapter adapter = new MyAdapter(itemList);
+                        recyclerView.setAdapter(adapter);
+                    } else {
+                        Toast.makeText(mainpage.this, "Error getting listings", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 }

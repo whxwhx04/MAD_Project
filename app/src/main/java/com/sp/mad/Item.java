@@ -3,23 +3,28 @@ package com.sp.mad;
 public class Item {
     private String title;
     private String price;
-    private int imageResId;
+    private String imageUrl; // Use String for storing the image URL
 
-    public Item(String title, String price, int imageResId) {
+    // Constructor
+    public Item(String title, String price, String imageUrl) {
         this.title = title;
         this.price = price;
-        this.imageResId = imageResId;
+        this.imageUrl = imageUrl;
     }
 
+    // Getter for the title
     public String getTitle() {
         return title;
     }
 
+    // Getter for the price
     public String getPrice() {
         return price;
     }
 
-    public int getImageResid() {
-        return imageResId;
+    // Getter for the imageUrl
+    public String getImageUrl() {
+        return imageUrl;
     }
 }
+
