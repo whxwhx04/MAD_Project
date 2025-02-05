@@ -1,5 +1,6 @@
 package com.sp.mad;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,9 +33,20 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         Item item = itemList.get(position);
         holder.itemTitle.setText(item.getTitle());
         holder.itemPrice.setText(item.getPrice());
+
         Glide.with(holder.itemImage.getContext())
                 .load(item.getImageUrl())
                 .into(holder.itemImage);
+
+        // Set click listener to navigate to buy_listing_details
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), buy_listing_details.class);
+            intent.putExtra("itemId", item.getItemId()); // Pass itemId
+            intent.putExtra("itemTitle", item.getTitle());
+            intent.putExtra("itemPrice", item.getPrice());
+            intent.putExtra("itemImageUrl", item.getImageUrl());
+            v.getContext().startActivity(intent);
+        });
     }
 
     @Override

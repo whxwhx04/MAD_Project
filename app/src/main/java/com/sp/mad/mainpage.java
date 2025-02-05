@@ -31,8 +31,6 @@ public class mainpage extends AppCompatActivity {
 
         // Initialize RecyclerView
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-
-        // Set GridLayoutManager with 2 columns
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
@@ -42,28 +40,20 @@ public class mainpage extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.explore) {
-                // Handle Explore action
-                Intent intent = new Intent(mainpage.this, mainpage.class);
-                startActivity(intent);
+                startActivity(new Intent(mainpage.this, mainpage.class));
                 return true;
             } else if (item.getItemId() == R.id.community) {
-                // Handle Community action
                 return true;
             } else if (item.getItemId() == R.id.sell) {
-                // Handle Sell action
-                Intent intent = new Intent(mainpage.this, create_listing.class);
-                startActivity(intent);
+                startActivity(new Intent(mainpage.this, create_listing.class));
                 return true;
             } else if (item.getItemId() == R.id.updates) {
-                // Handle Updates action
                 return true;
             } else if (item.getItemId() == R.id.profile) {
-                // Handle Profile action
-                Intent intent = new Intent(mainpage.this, profile_page.class);
-                startActivity(intent);
+                startActivity(new Intent(mainpage.this, profile_page.class));
                 return true;
-            } else
-                return false;
+            }
+            return false;
         });
     }
 
@@ -75,12 +65,12 @@ public class mainpage extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         List<Item> itemList = new ArrayList<>();
                         for (QueryDocumentSnapshot document : task.getResult()) {
+                            String itemId = document.getId(); // Fetch document ID
                             String title = document.getString("itemName");
                             String price = "Price: " + document.getString("price");
                             String imageUrl = document.getString("imageUrl");
 
-                            // Add the item to the list
-                            itemList.add(new Item(title, price, imageUrl));
+                            itemList.add(new Item(itemId, title, price, imageUrl)); // Now includes itemId
                         }
 
                         // Set Adapter

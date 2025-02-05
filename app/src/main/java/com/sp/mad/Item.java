@@ -1,30 +1,62 @@
 package com.sp.mad;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
+    private String itemId;
     private String title;
     private String price;
-    private String imageUrl; // Use String for storing the image URL
+    private String imageUrl;
 
-    // Constructor
-    public Item(String title, String price, String imageUrl) {
+    // Default constructor for Firebase
+    public Item() {
+    }
+
+    // Constructor with itemId
+    public Item(String itemId, String title, String price, String imageUrl) {
+        this.itemId = itemId;
         this.title = title;
         this.price = price;
         this.imageUrl = imageUrl;
     }
 
-    // Getter for the title
+    // Getter for itemId
+    public String getItemId() {
+        return itemId;
+    }
+
+    // Setter for itemId
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
+
+    // Getter for title
     public String getTitle() {
         return title;
     }
 
-    // Getter for the price
+    // Setter for title
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    // Getter for price
     public String getPrice() {
         return price;
     }
 
-    // Getter for the imageUrl
+    // Setter for price
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    // Getter for imageUrl
     public String getImageUrl() {
         return imageUrl;
     }
-}
 
+    // Setter for imageUrl
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+}
