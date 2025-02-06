@@ -27,6 +27,7 @@ public class Buyer_Listings extends AppCompatActivity {
         Button bidask = findViewById(R.id.btn_bidask);
         ImageView backBtn = findViewById(R.id.backBtn);
         ImageView btnLiked = findViewById(R.id.btn_liked);
+        ImageView btnTextSeller = findViewById(R.id.btn_textseller);
 
         // Back button functionality
         backBtn.setOnClickListener(view -> {
@@ -58,27 +59,26 @@ public class Buyer_Listings extends AppCompatActivity {
             itemImage.setImageResource(imageResId);
         }
 
-        // Make Offer button functionality
+        // Text Seller button functionality
+        btnTextSeller.setOnClickListener(view -> {
+            // Pass buyer_id as current user and seller_id as the other user
+            Intent chatIntent = new Intent(Buyer_Listings.this, BuyerAllChats.class);
+            String currentUserId = "buyer_id"; // Replace with actual buyer ID
+            String sellerId = intent.getStringExtra("accountSeller"); // Get seller ID from Intent
+            chatIntent.putExtra("currentUserId", currentUserId);  // Send current user (buyer) ID
+            chatIntent.putExtra("otherUserId", sellerId);  // Send the seller's ID
+            startActivity(chatIntent);
+        });
+
+
+        // "Make Offer" button functionality
         makeOffer.setOnClickListener(view -> {
-            // Handle the "Make Offer" button click
-            // You can navigate to another activity or show a dialog, etc.
-            // For example:
-            //Intent intentOffer = new Intent(Buyer_Listings.this, MakeOfferActivity.class);
-            //startActivity(intentOffer);
-        });
-
-        // Bid and Ask button functionality
-        bidask.setOnClickListener(view -> {
-            // Handle the "BID N ASK" button click
-            // You can open a new activity or show a dialog, etc.
-            // For example:
-            //Intent intentBid = new Intent(Buyer_Listings.this, BidAskActivity.class);
-            //startActivity(intentBid);
-        });
-
-        // Liked button functionality (optional)
-        btnLiked.setOnClickListener(view -> {
-            // Handle the "Liked" button click (toggle or show some UI feedback)
+            Intent chatIntent = new Intent(Buyer_Listings.this, BuyerChatRoomActivity.class);
+            String currentUserId = "buyer_id"; // Set buyer ID as the current user
+            String sellerId = intent.getStringExtra("accountSeller"); // Get seller ID from Intent
+            chatIntent.putExtra("currentUserId", currentUserId);  // Send current user (buyer) ID
+            chatIntent.putExtra("otherUserId", sellerId);  // Send the seller's ID
+            startActivity(chatIntent);
         });
     }
 }
