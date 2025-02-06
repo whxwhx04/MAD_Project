@@ -20,6 +20,11 @@
         <item>MAD</item>
         <item>MAE</item>
         <item>SOC</item>
+        <item>SABE</item>
+        <item>SCLS</item>
+        <item>SLSC</item>
+        <item>SMS</item>
+        <item>SMA</item>
     </string-array>
 
     <string-array name="course_options">
@@ -28,6 +33,18 @@
         <item>DEEE</item>
         <item>DEB</item>
         <item>DARCH</item>
+        <item>DCHE</item>
+        <item>DCSP</item>
+        <item>DIT</item>
+        <item>DASE</item>
+        <item>DARE</item>
+        <item>DMRO</item>
+        <item>DAAA</item>
+        <item>DCDF</item>
+        <item>DBS</item>
+        <item>DFST</item>
+        <item>DOPT</item>
+        <item>DPCS</item>
     </string-array>
 
     <string-array name="condition_options">
@@ -35,6 +52,7 @@
         <item>New</item>
         <item>Like New</item>
         <item>Used</item>
+        <item>Heavily Used</item>
     </string-array>
 
 </resources>

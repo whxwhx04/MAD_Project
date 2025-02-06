@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -20,14 +21,16 @@ import java.util.List;
 public class mainpage extends AppCompatActivity {
 
     private FirebaseFirestore db;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainpage);
 
-        // Initialize Firestore
+        // Initialize Firebase
         db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
 
         // Initialize RecyclerView
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
@@ -37,6 +40,7 @@ public class mainpage extends AppCompatActivity {
         // Fetch listings from Firestore
         fetchListings(recyclerView);
 
+        // Bottom Navigation
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.explore) {
@@ -69,12 +73,17 @@ public class mainpage extends AppCompatActivity {
                             String title = document.getString("itemName");
                             String price = "Price: " + document.getString("price");
                             String imageUrl = document.getString("imageUrl");
+                            String itemUserId = document.getString("userId"); // Fetch the userId for each item
 
-                            itemList.add(new Item(itemId, title, price, imageUrl)); // Now includes itemId
+                            itemList.add(new Item(itemId, title, price, imageUrl, itemUserId)); // Include userId
+
                         }
 
-                        // Set Adapter
-                        MyAdapter adapter = new MyAdapter(itemList);
+                        // Get the current user's ID
+                        String currentUserId = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : null;
+
+                        // Set Adapter with the current user's ID
+                        MyAdapter adapter = new MyAdapter(itemList, currentUserId);
                         recyclerView.setAdapter(adapter);
                     } else {
                         Toast.makeText(mainpage.this, "Error getting listings", Toast.LENGTH_SHORT).show();

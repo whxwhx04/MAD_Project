@@ -49,7 +49,7 @@
 
                     <ImageView
                         android:id="@+id/seller_pic"
-                        android:layout_width="wrap_content"
+                        android:layout_width="397dp"
                         android:layout_height="300dp"
                         android:layout_marginTop="10dp" />
                 </TableRow>
@@ -154,7 +154,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:layout_weight="1"
-                            android:text="Like New"
                             android:textSize="20sp" />
                     </LinearLayout>
                 </TableRow>
@@ -183,7 +182,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
-                            android:text="EEE -"
                             android:textSize="20sp" />
 
                         <TextView
@@ -191,7 +189,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
-                            android:text="DCPE"
                             android:textSize="20sp" />
                     </LinearLayout>
                 </TableRow>

@@ -7,56 +7,38 @@ public class Item implements Serializable {
     private String title;
     private String price;
     private String imageUrl;
+    private String userId; // User ID to track item ownership
 
-    // Default constructor for Firebase
+    // Default constructor (required for Firebase deserialization)
     public Item() {
     }
 
-    // Constructor with itemId
-    public Item(String itemId, String title, String price, String imageUrl) {
+    // Parameterized constructor
+    public Item(String itemId, String title, String price, String imageUrl, String userId) {
         this.itemId = itemId;
         this.title = title;
         this.price = price;
         this.imageUrl = imageUrl;
+        this.userId = userId;
     }
 
-    // Getter for itemId
-    public String getItemId() {
-        return itemId;
-    }
+    // Getter and Setter for itemId
+    public String getItemId() { return itemId; }
+    public void setItemId(String itemId) { this.itemId = itemId; }
 
-    // Setter for itemId
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
-    }
+    // Getter and Setter for title
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
 
-    // Getter for title
-    public String getTitle() {
-        return title;
-    }
+    // Getter and Setter for price
+    public String getPrice() { return price; }
+    public void setPrice(String price) { this.price = price; }
 
-    // Setter for title
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    // Getter and Setter for imageUrl
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
-    // Getter for price
-    public String getPrice() {
-        return price;
-    }
-
-    // Setter for price
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-    // Getter for imageUrl
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    // Setter for imageUrl
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
+    // Getter and Setter for userId
+    public String getUserId() { return userId; }
+    public void setUserId(String userId) { this.userId = userId; }
 }

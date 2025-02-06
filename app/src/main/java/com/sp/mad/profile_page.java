@@ -1,6 +1,6 @@
 package com.sp.mad;
 
-import android.content.Intent;
+import  android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,7 +45,7 @@ public class profile_page extends AppCompatActivity {
         userCourse = findViewById(R.id.user_course);
         profilePicture = findViewById(R.id.profilePicture);
         accSet = findViewById(R.id.acc_set);
-        recyclerView = findViewById(R.id.recyclerViewListings); // Initialize RecyclerView
+        recyclerView = findViewById(R.id.recyclerViewListings);
 
         // Load user information
         loadUserInfo();
@@ -88,9 +88,9 @@ public class profile_page extends AppCompatActivity {
             userRef.get().addOnSuccessListener(documentSnapshot -> {
                 if (documentSnapshot.exists()) {
                     String username = documentSnapshot.getString("username");
-                    String school = documentSnapshot.getString("acc_sch");
-                    String course = documentSnapshot.getString("acc_cour");
-                    String profilePicUrl = documentSnapshot.getString("profPicURL");
+                    String school = documentSnapshot.getString("school");
+                    String course = documentSnapshot.getString("course");
+                    String profilePicUrl = documentSnapshot.getString("profilePicture");
 
                     accountName.setText(username);
                     userSchool.setText(school);
@@ -102,35 +102,35 @@ public class profile_page extends AppCompatActivity {
             });
         }
     }
+            private void fetchUserListedItems() {
+                FirebaseUser user = auth.getCurrentUser();
+                if (user != null) {
+                    String userId = user.getUid();
+                    CollectionReference listingsRef = db.collection("listing_items");
 
-    private void fetchUserListedItems() {
-        FirebaseUser user = auth.getCurrentUser();
-        if (user != null) {
-            String userId = user.getUid();
-            CollectionReference listingsRef = db.collection("listing_items");
+                    // Query to get only the items listed by the current user
+                    listingsRef.whereEqualTo("userId", userId).get()
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    List<Item> itemList = new ArrayList<>();
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        String itemId = document.getId(); // Fetch document ID
+                                        String title = document.getString("itemName");
+                                        String price = "Price: " + document.getString("price");
+                                        String imageUrl = document.getString("imageUrl");
+                                        String itemUserId = document.getString("userId"); // Fetch userId
 
-            // Query to get only the items listed by the current user
-            listingsRef.whereEqualTo("userId", userId).get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            List<Item> itemList = new ArrayList<>();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                String itemId = document.getId(); // Fetch document ID
-                                String title = document.getString("itemName");
-                                String price = "Price: " + document.getString("price");
-                                String imageUrl = document.getString("imageUrl");
+                                        itemList.add(new Item(itemId, title, price, imageUrl, itemUserId)); // Now includes userId
+                                    }
 
-                                itemList.add(new Item(itemId, title, price, imageUrl)); // Now includes itemId
-                            }
-
-                            // Set Adapter
-                            myAdapter = new MyAdapter(itemList);
-                            recyclerView.setLayoutManager(new GridLayoutManager(this, 2)); // Set layout manager for RecyclerView
-                            recyclerView.setAdapter(myAdapter); // Set the adapter to RecyclerView
-                        } else {
-                            Toast.makeText(this, "Failed to load your items.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
-    }
+                                    // Set Adapter
+                                    myAdapter = new MyAdapter(itemList, userId); // Pass current user's ID
+                                    recyclerView.setLayoutManager(new GridLayoutManager(this, 2)); // Set layout manager for RecyclerView
+                                    recyclerView.setAdapter(myAdapter); // Set the adapter to RecyclerView
+                                } else {
+                                    Toast.makeText(this, "Failed to load your items.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
+            }
 }
