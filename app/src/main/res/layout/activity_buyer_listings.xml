@@ -239,6 +239,13 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/btn_textseller"
+                android:layout_width="35dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="5dp"
+                app:srcCompat="@drawable/dm" />
+
+            <ImageView
                 android:id="@+id/btn_liked"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
