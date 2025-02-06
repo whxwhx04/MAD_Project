@@ -2,11 +2,11 @@ package com.sp.mad;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
@@ -20,6 +20,7 @@ public class sell_listing_details extends AppCompatActivity {
     private ImageView listingImage, backBtn;
     private FirebaseFirestore db;
     private String itemId;
+    private Button editButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,59 +31,70 @@ public class sell_listing_details extends AppCompatActivity {
         listingTitle = findViewById(R.id.seller_title);
         listingPrice = findViewById(R.id.seller_price);
         listingImage = findViewById(R.id.seller_pic);
-        listingBy = findViewById(R.id.seller_acc); // This TextView will display the username
+        listingBy = findViewById(R.id.seller_acc);
         listingConditions = findViewById(R.id.seller_condition);
         listingCategories = findViewById(R.id.seller_listing_categories);
         listingDescription = findViewById(R.id.seller_description);
-        backBtn = findViewById(R.id.backBtn1); // Initialize backBtn
+        backBtn = findViewById(R.id.backBtn1);
+        editButton = findViewById(R.id.btn_Edit);
 
-        // Set click listener for back button
-        backBtn.setOnClickListener(v -> {
-            // Navigate back to mainpage
-            finish(); // This will close the current activity and return to the previous one
-        });
+        // Set listeners
+        backBtn.setOnClickListener(v -> finish());
+        editButton.setOnClickListener(v -> navigateToEditListing());
 
         // Initialize Firestore
         db = FirebaseFirestore.getInstance();
 
         // Get data from Intent
-        Intent intent = getIntent();
-        itemId = intent.getStringExtra("itemId");
+        itemId = getIntent().getStringExtra("itemId");
+        if (itemId == null || itemId.isEmpty()) {
+            Toast.makeText(this, "Error: No item ID found", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
-        // Fetch data from Firestore
+        // Fetch data
         fetchDataFromFirestore();
     }
 
     private void fetchDataFromFirestore() {
         DocumentReference listingRef = db.collection("listing_items").document(itemId);
         listingRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot document = task.getResult(); // Use DocumentSnapshot here
-                if (document != null && document.exists()) {
-                    // Retrieve data from snapshot
-                    String itemTitle = document.getString("itemName");
-                    String itemPrice = document.getString("price");
-                    String itemImageUrl = document.getString("imageUrl");
-                    String userId = document.getString("userId"); // Fetch userId to get username
-                    String itemConditions = document.getString("condition");
-                    String itemCategories = document.getString("course") + " - " + document.getString("school");
-                    String itemDescription = document.getString("description");
+            if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
+                DocumentSnapshot document = task.getResult();
 
-                    // Set data to views
-                    listingTitle.setText(itemTitle);
-                    listingPrice.setText("$" + itemPrice);
-                    Glide.with(sell_listing_details.this).load(itemImageUrl).into(listingImage);
-                    listingConditions.setText(itemConditions);
-                    listingCategories.setText("Category: " + itemCategories);
-                    listingDescription.setText(itemDescription);
+                // Retrieve data safely
+                String itemTitle = document.getString("itemName");
+                String itemPrice = document.getString("price");
+                String itemImageUrl = document.getString("imageUrl");
+                String userId = document.getString("userId");
+                String itemConditions = document.getString("condition");
+                String itemCategories = document.getString("course") + " - " + document.getString("school");
+                String itemDescription = document.getString("description");
 
-                    // Fetch username using userId
+                // Set data with null checks
+                listingTitle.setText(itemTitle != null ? itemTitle : "No Title");
+                listingPrice.setText(itemPrice != null ? "$" + itemPrice : "Price Unavailable");
+                listingConditions.setText(itemConditions != null ? itemConditions : "No Condition Info");
+                listingCategories.setText(itemCategories != null ? "Category: " + itemCategories : "No Category Info");
+                listingDescription.setText(itemDescription != null ? itemDescription : "No Description Available");
+
+                // Load image safely
+                if (itemImageUrl != null && !itemImageUrl.isEmpty()) {
+                    Glide.with(this).load(itemImageUrl).into(listingImage);
+                } else {
+                    listingImage.setImageResource(R.drawable.placeholder_image); // Ensure you have a placeholder image
+                }
+
+                // Fetch seller username
+                if (userId != null && !userId.isEmpty()) {
                     fetchUsername(userId);
                 } else {
-                    Toast.makeText(sell_listing_details.this, "Item not found", Toast.LENGTH_SHORT).show();
+                    listingBy.setText("Unknown Seller");
                 }
             } else {
-                Toast.makeText(sell_listing_details.this, "Failed to retrieve data", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Item not found", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }
@@ -90,17 +102,18 @@ public class sell_listing_details extends AppCompatActivity {
     private void fetchUsername(String userId) {
         DocumentReference userRef = db.collection("users").document(userId);
         userRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot userDocument = task.getResult();
-                if (userDocument != null && userDocument.exists()) {
-                    String username = userDocument.getString("username");
-                    listingBy.setText(username); // Set the username to the listingBy TextView
-                } else {
-                    listingBy.setText("User  not found");
-                }
+            if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
+                String username = task.getResult().getString("username");
+                listingBy.setText(username != null ? username : "Unknown User");
             } else {
-                Toast.makeText(sell_listing_details.this, "Failed to retrieve username", Toast.LENGTH_SHORT).show();
+                listingBy.setText("User not found");
             }
         });
+    }
+
+    private void navigateToEditListing() {
+        Intent intent = new Intent(this, edit_listing.class);
+        intent.putExtra("itemId", itemId);
+        startActivity(intent);
     }
 }

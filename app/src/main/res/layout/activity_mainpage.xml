@@ -46,17 +46,17 @@
             android:contentDescription="Filter" />
     </LinearLayout>
 
-    <!-- Search Bar -->
+    <!-- Search Bar (Height Reduced) -->
     <SearchView
         android:id="@+id/searchView"
-        android:layout_width="404dp"
-        android:layout_height="28dp"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
         android:layout_marginTop="4dp"
+        android:padding="2dp"
         android:queryHint="Search for items..."
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleRow"/>
+        app:layout_constraintTop_toBottomOf="@id/titleRow" />
 
     <TextView
         android:id="@+id/listingHeader"
@@ -72,15 +72,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/searchView" />
 
-    <!-- RecyclerView for Listings -->
+    <!-- RecyclerView for Listings (Ensured Scrollability) -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:overScrollMode="always"
+        app:layout_constraintTop_toBottomOf="@id/listingHeader"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/listingHeader" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Bottom Navigation Bar -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -96,4 +97,3 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
-

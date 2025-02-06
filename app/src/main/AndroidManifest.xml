@@ -19,6 +19,9 @@
         android:theme="@style/Theme.MAD_project"
         tools:targetApi="31">
         <activity
+            android:name=".edit_listing"
+            android:exported="false" />
+        <activity
             android:name=".sell_listing_details"
             android:exported="false" />
         <activity
