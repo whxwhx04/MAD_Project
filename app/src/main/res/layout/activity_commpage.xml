@@ -43,21 +43,22 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/addicon"
-            android:contentDescription="Categories" />
+            android:contentDescription="Add Post" />
     </LinearLayout>
 
-    <!-- Search Bar (Height Reduced) -->
+    <!-- Search Bar -->
     <SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:layout_marginTop="4dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="8dp"
         android:padding="2dp"
-        android:queryHint="Search for items..."
+        android:queryHint="Search for posts..."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleRow" />
 
+    <!-- Header Text for Posts Section -->
     <TextView
         android:id="@+id/postHeader"
         android:layout_width="wrap_content"
@@ -72,7 +73,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/searchView" />
 
-    <!-- RecyclerView for Posts (Ensured Scrollability) -->
+    <!-- RecyclerView for displaying Posts -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
