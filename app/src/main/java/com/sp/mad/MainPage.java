@@ -83,6 +83,8 @@ public class MainPage extends AppCompatActivity {
                     // Open Liked Posts
                 } else if (id == R.id.nav_saved_items) {
                     // Open Saved Items
+                    Intent intent = new Intent(MainPage.this, SavedItemsActivity.class);
+                    startActivity(intent);
                 } else if (id == R.id.nav_bid_ask) {
                     // Open Bid & Ask
                 } else if (id == R.id.nav_settings) {
