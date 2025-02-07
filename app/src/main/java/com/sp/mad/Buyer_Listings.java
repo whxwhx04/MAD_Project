@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Buyer_Listings extends AppCompatActivity {
@@ -69,6 +71,40 @@ public class Buyer_Listings extends AppCompatActivity {
             chatIntent.putExtra("otherUserId", sellerId);  // Send the seller's ID
             startActivity(chatIntent);
         });
+
+        btnSaved.setOnClickListener(view -> {
+            // Get item details from the already declared intent
+            String title = intent.getStringExtra("title");
+            String price = intent.getStringExtra("price");
+            int imageResId = intent.getIntExtra("imageResId", 0);
+            String description = intent.getStringExtra("description");
+            String accountSeller = intent.getStringExtra("accountSeller");
+            String condition = intent.getStringExtra("condition");
+            String school = intent.getStringExtra("school");
+            String course = intent.getStringExtra("course");
+
+            if (title == null || title.isEmpty() || price == null || price.isEmpty()) {
+                System.out.println("⚠ Empty item detected! Not adding to saved items.");
+                return; // Prevent adding empty items
+            }
+
+            // Create an Item object
+            Item savedItem = new Item(title, price, imageResId, description, accountSeller, condition, school, course);
+
+            // Check if item is already saved
+            if (SavedItemsManager.isItemAlreadySaved(savedItem)) {
+                Toast.makeText(Buyer_Listings.this, "Item already saved!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Add the item to saved items
+            SavedItemsManager.addItem(savedItem);
+
+            // Show confirmation message
+            Toast.makeText(Buyer_Listings.this, "Item saved!", Toast.LENGTH_SHORT).show();
+        });
+
+
 
 
         // "Make Offer" button functionality
