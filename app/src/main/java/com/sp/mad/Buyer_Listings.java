@@ -26,7 +26,7 @@ public class Buyer_Listings extends AppCompatActivity {
         Button makeOffer = findViewById(R.id.btn_offer);
         Button bidask = findViewById(R.id.btn_bidask);
         ImageView backBtn = findViewById(R.id.backBtn);
-        ImageView btnLiked = findViewById(R.id.btn_liked);
+        ImageView btnSaved = findViewById(R.id.btn_saved);
         ImageView btnTextSeller = findViewById(R.id.btn_textseller);
 
         // Back button functionality
