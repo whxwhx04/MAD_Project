@@ -246,7 +246,7 @@
                 app:srcCompat="@drawable/dm" />
 
             <ImageView
-                android:id="@+id/btn_liked"
+                android:id="@+id/btn_saved"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="5dp"
