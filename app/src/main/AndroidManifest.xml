@@ -19,6 +19,12 @@
         android:theme="@style/Theme.MAD_project"
         tools:targetApi="31">
         <activity
+            android:name=".saved_items"
+            android:exported="false" />
+        <activity
+            android:name=".commpage"
+            android:exported="false" />
+        <activity
             android:name=".edit_listing"
             android:exported="false" />
         <activity

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient"
-    tools:context=".mainpage">
+    tools:context=".commpage">
 
     <!-- Title Bar -->
     <LinearLayout
@@ -20,30 +20,30 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
-            android:id="@+id/nav_drawer"
+            android:id="@+id/filtrIcon"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/categories"
-            android:contentDescription="Categories" />
+            android:src="@drawable/filtr"
+            android:contentDescription="Filter" />
 
         <TextView
             android:id="@+id/titleText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/alkatra"
             android:gravity="center"
             android:text="SP ThriftHub"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="24sp"
-            android:textStyle="bold"
-            android:fontFamily="@font/alkatra" />
+            android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/filtrIcon"
+            android:id="@+id/addicon"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/filter"
-            android:contentDescription="Filter" />
+            android:src="@drawable/addicon"
+            android:contentDescription="Categories" />
     </LinearLayout>
 
     <!-- Search Bar (Height Reduced) -->
@@ -59,12 +59,12 @@
         app:layout_constraintTop_toBottomOf="@id/titleRow" />
 
     <TextView
-        android:id="@+id/listingHeader"
+        android:id="@+id/postHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="All Listings"
-        android:textColor="#000000"
+        android:text="All Posts"
+        android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,13 +72,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/searchView" />
 
-    <!-- RecyclerView for Listings (Ensured Scrollability) -->
+    <!-- RecyclerView for Posts (Ensured Scrollability) -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:overScrollMode="always"
-        app:layout_constraintTop_toBottomOf="@id/listingHeader"
+        app:layout_constraintTop_toBottomOf="@id/postHeader"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

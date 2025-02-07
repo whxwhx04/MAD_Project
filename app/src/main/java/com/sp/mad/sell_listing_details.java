@@ -69,7 +69,7 @@ public class sell_listing_details extends AppCompatActivity {
                 String itemImageUrl = document.getString("imageUrl");
                 String userId = document.getString("userId");
                 String itemConditions = document.getString("condition");
-                String itemCategories = document.getString("course") + " - " + document.getString("school");
+                String itemCategories = document.getString("school") + " - " + document.getString("course");
                 String itemDescription = document.getString("description");
 
                 // Set data with null checks

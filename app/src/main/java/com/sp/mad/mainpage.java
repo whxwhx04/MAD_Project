@@ -18,6 +18,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class mainpage extends AppCompatActivity {
@@ -28,55 +29,53 @@ public class mainpage extends AppCompatActivity {
     private MyAdapter adapter;
     private List<Item> itemList;
     private SearchView searchView;
-    private ImageView filterIcon;  // Added filter icon
+    private ImageView filterIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainpage);
 
-        // Initialize Firebase
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
-        // Initialize RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         itemList = new ArrayList<>();
 
-        // Fetch Listings
-        fetchListings("");
+        // Retrieve filters from intent
+        Intent intent = getIntent();
+        HashMap<String, String> filters = (HashMap<String, String>) intent.getSerializableExtra("filters");
+        fetchListings("", filters);
 
-        // Initialize SearchView
         searchView = findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                searchListings(query);
+                fetchListings(query, filters);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                searchListings(newText);
+                fetchListings(newText, filters);
                 return true;
             }
         });
 
-        // Initialize Filter Icon and Set OnClick Listener
-        filterIcon = findViewById(R.id.filterIcon);
+        filterIcon = findViewById(R.id.filtrIcon);
         filterIcon.setOnClickListener(v -> {
-            Intent intent = new Intent(mainpage.this, mainfilter.class);
-            startActivity(intent);
+            Intent filterIntent = new Intent(mainpage.this, mainfilter.class);
+            startActivity(filterIntent);
         });
 
-        // Bottom Navigation
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.explore) {
                 startActivity(new Intent(mainpage.this, mainpage.class));
                 return true;
             } else if (item.getItemId() == R.id.community) {
+                startActivity(new Intent(mainpage.this, commpage.class));
                 return true;
             } else if (item.getItemId() == R.id.sell) {
                 startActivity(new Intent(mainpage.this, create_listing.class));
@@ -91,9 +90,22 @@ public class mainpage extends AppCompatActivity {
         });
     }
 
-    private void fetchListings(String searchQuery) {
+    private void fetchListings(String searchQuery, HashMap<String, String> filters) {
         CollectionReference listingsRef = db.collection("listing_items");
-        Query query = searchQuery.isEmpty() ? listingsRef : listingsRef.whereEqualTo("itemName", searchQuery);
+        Query query = listingsRef;
+
+        if (!searchQuery.isEmpty()) {
+            query = query.whereEqualTo("itemName", searchQuery);
+        }
+
+        if (filters != null) {
+            for (String key : filters.keySet()) {
+                String value = filters.get(key);
+                if (value != null && !value.equals("Any")) {
+                    query = query.whereEqualTo(key, value);
+                }
+            }
+        }
 
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -120,9 +132,5 @@ public class mainpage extends AppCompatActivity {
                 Toast.makeText(mainpage.this, "Error getting listings", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void searchListings(String query) {
-        fetchListings(query);
     }
 }

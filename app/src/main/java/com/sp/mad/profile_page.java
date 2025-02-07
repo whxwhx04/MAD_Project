@@ -66,6 +66,7 @@ public class profile_page extends AppCompatActivity {
                 startActivity(new Intent(profile_page.this, mainpage.class));
                 return true;
             } else if (item.getItemId() == R.id.community) {
+                startActivity(new Intent(profile_page.this, commpage.class));
                 return true;
             } else if (item.getItemId() == R.id.sell) {
                 startActivity(new Intent(profile_page.this, create_listing.class));

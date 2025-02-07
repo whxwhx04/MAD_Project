@@ -6,7 +6,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
@@ -65,7 +64,7 @@ public class buy_listing_details extends AppCompatActivity {
                     String itemImageUrl = document.getString("imageUrl");
                     String userId = document.getString("userId"); // Fetch userId to get username
                     String itemConditions = document.getString("condition");
-                    String itemCategories = document.getString("course") + " - " + document.getString("school");
+                    String itemCategories = document.getString("school") + " - " + document.getString("course");
                     String itemDescription = document.getString("description");
 
                     // Set data to views
