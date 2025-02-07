@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
+    private static final int VIEW_TYPE_SENT = 1;
+    private static final int VIEW_TYPE_RECEIVED = 2;
+
     private List<Message> messages;
     private String currentUserId;
 
@@ -17,10 +20,25 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         this.currentUserId = currentUserId;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        Message message = messages.get(position);
+        if (message.getSenderId() != null && message.getSenderId().equals(currentUserId)) {
+            return VIEW_TYPE_SENT; // Message sent by the current user
+        } else {
+            return VIEW_TYPE_RECEIVED; // Message received from the other user
+        }
+    }
+
     @NonNull
     @Override
     public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_message_row, parent, false);
+        View view;
+        if (viewType == VIEW_TYPE_SENT) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_message_sent, parent, false);
+        } else {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_message_received, parent, false);
+        }
         return new ChatViewHolder(view);
     }
 
@@ -28,20 +46,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
         Message message = messages.get(position);
         holder.messageTextView.setText(message.getMessage());
-
-        // Align messages based on sender
-        if (message.getSenderId() != null && message.getSenderId().equals(currentUserId)) {
-            // Current user (buyer) message -> align right
-            holder.messageTextView.setBackgroundResource(R.drawable.bg_message_sent);
-            holder.messageTextView.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
-        } else {
-            // Other user (seller) message -> align left
-            holder.messageTextView.setBackgroundResource(R.drawable.bg_message_received);
-            holder.messageTextView.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
-        }
-
     }
-
 
     @Override
     public int getItemCount() {
@@ -53,7 +58,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
         ChatViewHolder(View itemView) {
             super(itemView);
-            messageTextView = itemView.findViewById(R.id.message_text);
+            messageTextView = itemView.findViewById(R.id.message_seller);
         }
     }
 }
