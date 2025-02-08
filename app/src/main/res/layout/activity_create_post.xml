@@ -10,7 +10,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="fitXY"
-        android:src="@drawable/logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -112,7 +111,7 @@
 
         <Spinner
             android:id="@+id/post_sch"
-            android:layout_width="match_parent"
+            android:layout_width="400dp"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:entries="@array/school_options"
@@ -120,7 +119,7 @@
 
         <Spinner
             android:id="@+id/post_course"
-            android:layout_width="match_parent"
+            android:layout_width="400dp"
             android:layout_height="40dp"
             android:layout_marginTop="20dp"
             android:entries="@array/course_options"

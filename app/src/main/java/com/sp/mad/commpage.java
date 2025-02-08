@@ -1,4 +1,5 @@
 package com.sp.mad;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -13,7 +14,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.sp.mad.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ public class commpage extends AppCompatActivity {
     private PostAdapter postAdapter;
     private List<Post> postList;
     private String currentUserId;
-    private ImageView filtrIcon,addIcon;
+    private ImageView filtrIcon, addIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +31,10 @@ public class commpage extends AppCompatActivity {
         setContentView(R.layout.activity_commpage);
 
         recyclerView = findViewById(R.id.recyclerView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this); // Use LinearLayoutManager
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL); // Vertical orientation
-        recyclerView.setLayoutManager(layoutManager); // Set the layout manager to recyclerView
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+
         filtrIcon = findViewById(R.id.filtrIcon);
         filtrIcon.setOnClickListener(v -> {
             Intent filterIntent = new Intent(commpage.this, commfilter.class);
@@ -45,6 +46,7 @@ public class commpage extends AppCompatActivity {
             Intent addpostIntent = new Intent(commpage.this, create_post.class);
             startActivity(addpostIntent);
         });
+
         // Get current user ID
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         currentUserId = mAuth.getCurrentUser().getUid();
@@ -68,6 +70,7 @@ public class commpage extends AppCompatActivity {
             }
             return false;
         });
+
         // Initialize the post list
         postList = new ArrayList<>();
 
@@ -87,17 +90,34 @@ public class commpage extends AppCompatActivity {
                             String description = document.getString("description");
                             String imageUrl = document.getString("imageUrl");
 
-                            // Add the fetched post to the list
-                            postList.add(new Post(postId, userId, description, imageUrl));
+                            // Fetch the username of the user who created the post
+                            fetchUsername(userId, postId, description, imageUrl);
                         }
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(commpage.this, "Error loading posts: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
 
-                        // Set the adapter with the fetched posts
+    private void fetchUsername(String userId, String postId, String description, String imageUrl) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users").document(userId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String username = documentSnapshot.getString("username");
+
+                        // Add the post to the list with username included
+                        postList.add(new Post(postId, userId, username, description, imageUrl));
+
+                        // Set the adapter with the fetched posts once the username is added
                         postAdapter = new PostAdapter(postList, currentUserId);
                         recyclerView.setAdapter(postAdapter);
                     }
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(commpage.this, "Error loading posts: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(commpage.this, "Error loading username: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 }
