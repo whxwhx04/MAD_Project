@@ -22,13 +22,12 @@
                 android:layout_height="match_parent"
                 app:srcCompat="@drawable/left_arrow" />
 
-            <TextView
+            <ImageView
                 android:id="@+id/seller_heading"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="150dp"
-                android:text="Listings"
-                android:textSize="24sp" />
+                android:layout_weight="1"
+                android:src="@drawable/lsttitle" />
 
         </LinearLayout>
 

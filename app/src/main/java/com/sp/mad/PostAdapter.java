@@ -1,5 +1,6 @@
 package com.sp.mad;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     public PostAdapter(List<Post> postList, String currentUserId) {
         this.postList = postList;
-        this.currentUserId = currentUserId; // Passed directly from commpage
+        this.currentUserId = currentUserId;
     }
 
     @NonNull
@@ -47,39 +48,42 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 .into(holder.postImageView);
 
         // Handle like button functionality
+        handleLikeButton(holder, post);
+
+        // Navigate to PostDetailsActivity on post click
+        handlePostClick(holder, post);
+    }
+
+    private void handleLikeButton(ViewHolder holder, Post post) {
         holder.likeButton.setOnClickListener(v -> {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
-            String currentUserId = mAuth.getCurrentUser().getUid();  // Get current user ID
+            String currentUserId = mAuth.getCurrentUser().getUid();
 
-            String postId = post.getPostId();  // Get the postId of the post being liked
+            String postId = post.getPostId();  // This is the correct postId from posts collection
 
             db.collection("users").document(currentUserId)
                     .collection("liked_posts")
-                    .document(postId)  // The document ID will be the postId
+                    .document(postId)
                     .get()
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
-                            // If the post is already liked, remove it
                             db.collection("users").document(currentUserId)
                                     .collection("liked_posts")
                                     .document(postId)
                                     .delete()
                                     .addOnSuccessListener(aVoid -> {
-                                        // Show a toast message indicating the post has been unliked
                                         Toast.makeText(v.getContext(), "You've unliked the post!", Toast.LENGTH_SHORT).show();
                                     });
                         } else {
-                            // If the post is not liked, add it to liked_posts subcollection with field "PostId"
                             HashMap<String, Object> likedPostData = new HashMap<>();
-                            likedPostData.put("postId", postId);  // Add the field "PostId" with the post ID
+                            likedPostData.put("postId", postId);
 
                             db.collection("users").document(currentUserId)
                                     .collection("liked_posts")
-                                    .document(postId)  // The document ID still holds the post ID
-                                    .set(likedPostData)  // Set "PostId" field in the document
+                                    .document(postId)
+                                    .set(likedPostData)
                                     .addOnSuccessListener(aVoid -> {
-                                        // Show a toast message indicating the post has been liked
                                         Toast.makeText(v.getContext(), "You've liked the post!", Toast.LENGTH_SHORT).show();
                                     });
                         }
@@ -90,24 +94,32 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         });
     }
 
+    private void handlePostClick(ViewHolder holder, Post post) {
+        holder.itemView.setOnClickListener(v -> {
+            // Navigate to PostDetailsActivity on post click and pass the correct postId
+            Intent intent = new Intent(v.getContext(), post_details.class);
+            intent.putExtra("postId", post.getPostId());  // Pass the postId from the posts collection
+            v.getContext().startActivity(intent);
+        });
+    }
+
     @Override
     public int getItemCount() {
         return postList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        // Views for image, description, and username
         ImageView postImageView;
         TextView descriptionTextView;
-        TextView usernameTextView;  // Added TextView for username
-        ImageView likeButton;  // Like button
+        TextView usernameTextView;
+        ImageView likeButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             postImageView = itemView.findViewById(R.id.postImageView);
             descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
-            usernameTextView = itemView.findViewById(R.id.usernameTextView);  // Initialize username TextView
-            likeButton = itemView.findViewById(R.id.likepost);  // Initialize like button
+            usernameTextView = itemView.findViewById(R.id.usernameTextView);
+            likeButton = itemView.findViewById(R.id.likepost);
         }
     }
 }

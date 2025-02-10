@@ -55,6 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="User Name"
+                android:textColor="#217825"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -80,9 +81,9 @@
 
                 <TextView
                     android:id="@+id/user_course"
-                    android:layout_width="80dp"
+                    android:layout_width="61dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:textColor="#E91E63"
                     android:textSize="20sp" />
             </LinearLayout>
@@ -106,7 +107,9 @@
             android:gravity="center"
             android:orientation="vertical"
             android:padding="8dp">
+
             <ImageView
+                android:id="@+id/likedPosts2"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@drawable/liked_post" />
@@ -126,7 +129,9 @@
             android:gravity="center"
             android:orientation="vertical"
             android:padding="8dp">
+
             <ImageView
+                android:id="@+id/savedItems2"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@drawable/saved" />
@@ -146,7 +151,9 @@
             android:gravity="center"
             android:orientation="vertical"
             android:padding="8dp">
+
             <ImageView
+                android:id="@+id/bidAsk2"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@drawable/bidask" />
@@ -166,7 +173,9 @@
             android:gravity="center"
             android:orientation="vertical"
             android:padding="8dp">
+
             <ImageView
+                android:id="@+id/purchases2"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@drawable/purchases" />
@@ -187,6 +196,7 @@
         android:paddingTop="10dp"
         android:paddingBottom="8dp"
         android:text="Your Listings"
+        android:textColor="#9C27B0"
         android:textSize="18sp"
         android:textStyle="bold" />
     <!-- RecyclerView for Listings (2 Columns) -->

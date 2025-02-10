@@ -47,7 +47,6 @@ public class commpage extends AppCompatActivity {
             startActivity(addpostIntent);
         });
 
-        // Get current user ID
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         currentUserId = mAuth.getCurrentUser().getUid();
 
@@ -71,10 +70,7 @@ public class commpage extends AppCompatActivity {
             return false;
         });
 
-        // Initialize the post list
         postList = new ArrayList<>();
-
-        // Fetch posts from Firestore
         fetchPostsFromFirestore();
     }
 
@@ -90,7 +86,6 @@ public class commpage extends AppCompatActivity {
                             String description = document.getString("description");
                             String imageUrl = document.getString("imageUrl");
 
-                            // Fetch the username of the user who created the post
                             fetchUsername(userId, postId, description, imageUrl);
                         }
                     }
@@ -107,11 +102,8 @@ public class commpage extends AppCompatActivity {
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         String username = documentSnapshot.getString("username");
-
-                        // Add the post to the list with username included
                         postList.add(new Post(postId, userId, username, description, imageUrl));
 
-                        // Set the adapter with the fetched posts once the username is added
                         postAdapter = new PostAdapter(postList, currentUserId);
                         recyclerView.setAdapter(postAdapter);
                     }
