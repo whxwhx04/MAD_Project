@@ -103,7 +103,7 @@
         <EditText
             android:id="@+id/post_des"
             android:layout_width="match_parent"
-            android:layout_height="76dp"
+            android:layout_height="45dp"
             android:ems="10"
             android:hint="Enter your thoughts"
             android:inputType="text"

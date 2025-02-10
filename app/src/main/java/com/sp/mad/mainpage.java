@@ -62,11 +62,11 @@ public class mainpage extends AppCompatActivity {
                 if (id == R.id.nav_all_chats) {
                     startActivity(new Intent(mainpage.this, mainpage.class));
                 } else if (id == R.id.nav_created_post) {
-                    startActivity(new Intent(mainpage.this, mainpage.class));
+                    startActivity(new Intent(mainpage.this, created_posts.class));
                 } else if (id == R.id.nav_liked_posts) {
-                    startActivity(new Intent(mainpage.this, mainpage.class));
+                    startActivity(new Intent(mainpage.this, liked_post.class));
                 } else if (id == R.id.nav_saved_items) {
-                    startActivity(new Intent(mainpage.this, saveditems_page.class));
+                    startActivity(new Intent(mainpage.this, mainpage.class));
                 } else if (id == R.id.nav_bid_ask) {
                     startActivity(new Intent(mainpage.this, mainpage.class));
                 } else if (id == R.id.nav_settings) {

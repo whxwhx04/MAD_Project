@@ -19,6 +19,12 @@
         android:theme="@style/Theme.MAD_project"
         tools:targetApi="31">
         <activity
+            android:name=".created_posts"
+            android:exported="false" />
+        <activity
+            android:name=".liked_post"
+            android:exported="false" />
+        <activity
             android:name=".saveditems_page"
             android:exported="false" />
         <activity
