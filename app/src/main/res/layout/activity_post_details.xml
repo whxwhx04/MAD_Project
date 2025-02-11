@@ -6,7 +6,7 @@
 
     <!-- Post User Profile -->
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -23,6 +23,13 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:src="@drawable/ptitle" />
+
+        <ImageView
+            android:id="@+id/deletepost"
+            android:layout_width="44dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/delete_icon" />
     </LinearLayout>
 
     <LinearLayout
@@ -51,7 +58,7 @@
             android:id="@+id/schoolTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:text="school"
             android:textColor="#7E1717"
             android:textSize="15sp"

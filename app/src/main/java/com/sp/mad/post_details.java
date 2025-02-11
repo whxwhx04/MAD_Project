@@ -12,15 +12,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class post_details extends AppCompatActivity {
     private TextView usernameTextView, descriptionTextView, schoolTextView, courseTextView;
-    private ImageView postImageView, profileImageView, bck_post;
+    private ImageView postImageView, profileImageView, bck_post, deletePost;
     private EditText commentEditText;
     private ImageButton sendCommentButton;
     private RecyclerView commentsRecyclerView;
@@ -28,6 +32,10 @@ public class post_details extends AppCompatActivity {
     private List<Comment> commentList;
     private String postId;
     private String currentUserId;
+
+    // Firestore and FirebaseStorage instances
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +53,7 @@ public class post_details extends AppCompatActivity {
         sendCommentButton = findViewById(R.id.sendCommentButton);
         commentsRecyclerView = findViewById(R.id.commentsRecyclerView);
         bck_post = findViewById(R.id.bck_post);
+        deletePost = findViewById(R.id.deletepost);
 
         // Initialize the comments list and adapter
         commentList = new ArrayList<>();
@@ -75,35 +84,46 @@ public class post_details extends AppCompatActivity {
         });
 
         // Back button functionality
-        bck_post.setOnClickListener(v -> {
-            // Finish the current activity to return to the previous activity (commPage)
-            finish();
+        bck_post.setOnClickListener(v -> finish());
+
+        // Delete post functionality
+        deletePost.setOnClickListener(v -> {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("posts").document(postId)
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            String userId = documentSnapshot.getString("userId");  // Get userId of the post owner
+                            if (currentUserId.equals(userId)) {
+                                // User is the owner of the post, delete the post
+                                deletePost();
+                            } else {
+                                // User is not the owner
+                                Toast.makeText(post_details.this, "Sorry, you are not the owner of this post", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(post_details.this, "Post not found.", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(e -> Toast.makeText(post_details.this, "Error checking post ownership: " + e.getMessage(), Toast.LENGTH_SHORT).show());
         });
     }
 
     private void fetchPostDetails() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("posts").document(postId)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
-                        // Get post details
                         String description = documentSnapshot.getString("description");
                         String imageUrl = documentSnapshot.getString("imageUrl");
                         String userId = documentSnapshot.getString("userId");  // Get the userId of the poster
-                        String school = documentSnapshot.getString("school");  // Fetch school
-                        String course = documentSnapshot.getString("course");  // Fetch course
+                        String school = documentSnapshot.getString("school");
+                        String course = documentSnapshot.getString("course");
 
-                        // Set post image
                         Glide.with(this).load(imageUrl).into(postImageView);
-
-                        // Now fetch the username and profile image from the users collection
                         fetchUserDetails(userId);
 
-                        // Set post description
                         descriptionTextView.setText(description);
-
-                        // Set school and course values
                         schoolTextView.setText(school);
                         courseTextView.setText(course);
                     } else {
@@ -114,15 +134,13 @@ public class post_details extends AppCompatActivity {
     }
 
     private void fetchUserDetails(String userId) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("users").document(userId)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
-                        String username = documentSnapshot.getString("username"); // Fetch username
-                        String profileImageUrl = documentSnapshot.getString("profilePicture"); // Fetch profile picture URL
+                        String username = documentSnapshot.getString("username");
+                        String profileImageUrl = documentSnapshot.getString("profilePicture");
 
-                        // Set username and profile image
                         usernameTextView.setText(username);
                         Glide.with(this).load(profileImageUrl).into(profileImageView);
                     } else {
@@ -133,18 +151,16 @@ public class post_details extends AppCompatActivity {
     }
 
     private void fetchComments() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("posts").document(postId).collection("comments")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if (queryDocumentSnapshots != null) {
-                        commentList.clear(); // Clear previous comments
+                        commentList.clear();
                         for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                             String userId = document.getString("userId");
                             String content = document.getString("content");
                             long timestamp = document.getLong("timestamp");
 
-                            // Add the comment to the list
                             commentList.add(new Comment(userId, content, timestamp));
                         }
                         commentAdapter.notifyDataSetChanged();
@@ -154,23 +170,55 @@ public class post_details extends AppCompatActivity {
     }
 
     private void sendComment(String commentText) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
         long timestamp = System.currentTimeMillis();
-
-        // Create a new comment
         Comment comment = new Comment(currentUserId, commentText, timestamp);
 
-        // Add the comment to the Firestore
         db.collection("posts").document(postId).collection("comments")
                 .add(comment)
                 .addOnSuccessListener(documentReference -> {
-                    // Clear the comment input field
                     commentEditText.setText("");
                     Toast.makeText(post_details.this, "Comment added!", Toast.LENGTH_SHORT).show();
-
-                    // Refresh the comments
                     fetchComments();
                 })
                 .addOnFailureListener(e -> Toast.makeText(post_details.this, "Error adding comment: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+    }
+
+    private void deletePost() {
+        DocumentReference postRef = db.collection("posts").document(postId);
+
+        // Fetch the image URL before deleting the post
+        postRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                DocumentSnapshot document = task.getResult();
+                String imageUrl = document.getString("imageUrl");
+
+                // Get reference to the image file in Firebase Storage
+                StorageReference imageRef = storage.getReferenceFromUrl(imageUrl);
+
+                // Delete the image from Firebase Storage
+                imageRef.delete().addOnCompleteListener(imageDeleteTask -> {
+                    if (imageDeleteTask.isSuccessful()) {
+                        // After image is deleted, delete the post from Firestore
+                        postRef.delete().addOnCompleteListener(deleteTask -> {
+                            if (deleteTask.isSuccessful()) {
+                                // Show Toast message on success
+                                Toast.makeText(post_details.this, "Post and image deleted successfully", Toast.LENGTH_SHORT).show();
+
+                                // Navigate back to previous activity after deletion
+                                finish();
+                            } else {
+                                // Show error message if deletion fails
+                                Toast.makeText(post_details.this, "Error deleting post", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        // Show error message if image deletion fails
+                        Toast.makeText(post_details.this, "Error deleting image", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                Toast.makeText(post_details.this, "Error fetching post data", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

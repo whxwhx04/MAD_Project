@@ -13,14 +13,17 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class sell_listing_details extends AppCompatActivity {
 
     private TextView listingTitle, listingPrice, listingBy, listingConditions, listingCategories, listingDescription;
     private ImageView listingImage, backBtn;
     private FirebaseFirestore db;
+    private FirebaseStorage storage;
     private String itemId;
-    private Button editButton;
+    private Button editButton, deleteButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +40,16 @@ public class sell_listing_details extends AppCompatActivity {
         listingDescription = findViewById(R.id.seller_description);
         backBtn = findViewById(R.id.backBtn1);
         editButton = findViewById(R.id.btn_Edit);
+        deleteButton = findViewById(R.id.btn_Delete);
 
         // Set listeners
         backBtn.setOnClickListener(v -> finish());
         editButton.setOnClickListener(v -> navigateToEditListing());
+        deleteButton.setOnClickListener(v -> deleteListing());
 
-        // Initialize Firestore
+        // Initialize Firestore and FirebaseStorage
         db = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance();
 
         // Get data from Intent
         itemId = getIntent().getStringExtra("itemId");
@@ -66,7 +72,7 @@ public class sell_listing_details extends AppCompatActivity {
                 // Retrieve data safely
                 String itemTitle = document.getString("itemName");
                 String itemPrice = document.getString("price");
-                String itemImageUrl = document.getString("imageUrl");
+                String itemImageUrl = document.getString("imageUrl");  // This is the image URL
                 String userId = document.getString("userId");
                 String itemConditions = document.getString("condition");
                 String itemCategories = document.getString("school") + " - " + document.getString("course");
@@ -115,5 +121,56 @@ public class sell_listing_details extends AppCompatActivity {
         Intent intent = new Intent(this, edit_listing.class);
         intent.putExtra("itemId", itemId);
         startActivity(intent);
+    }
+
+    private void deleteListing() {
+        DocumentReference listingRef = db.collection("listing_items").document(itemId);
+
+        // Fetch the image URL before deleting the item
+        listingRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                DocumentSnapshot document = task.getResult();
+                String itemImageUrl = document.getString("imageUrl");
+
+                if (itemImageUrl != null && !itemImageUrl.isEmpty()) {
+                    // Get reference to the image file in Firebase Storage
+                    StorageReference imageRef = storage.getReferenceFromUrl(itemImageUrl);
+
+                    // Delete the image from Firebase Storage
+                    imageRef.delete().addOnCompleteListener(imageDeleteTask -> {
+                        if (imageDeleteTask.isSuccessful()) {
+                            // After image is deleted, delete the listing item from Firestore
+                            listingRef.delete().addOnCompleteListener(deleteTask -> {
+                                if (deleteTask.isSuccessful()) {
+                                    // Show Toast message on success
+                                    Toast.makeText(sell_listing_details.this, "Item and image deleted successfully", Toast.LENGTH_SHORT).show();
+
+                                    // Navigate back to previous activity after deletion
+                                    finish();
+                                } else {
+                                    // Show error message if deletion fails
+                                    Toast.makeText(sell_listing_details.this, "Error deleting item", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else {
+                            // Show error message if image deletion fails
+                            Toast.makeText(sell_listing_details.this, "Error deleting image", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    // If no image URL is found, just delete the listing from Firestore
+                    listingRef.delete().addOnCompleteListener(deleteTask -> {
+                        if (deleteTask.isSuccessful()) {
+                            Toast.makeText(sell_listing_details.this, "Item deleted successfully", Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            Toast.makeText(sell_listing_details.this, "Error deleting item", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            } else {
+                Toast.makeText(sell_listing_details.this, "Error fetching item data", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
