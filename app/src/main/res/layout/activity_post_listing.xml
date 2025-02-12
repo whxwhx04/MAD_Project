@@ -52,7 +52,7 @@
                     android:textSize="14sp" />
 
                 <ImageView
-                    android:id="@+id/savepost"
+                    android:id="@+id/saveItem"
                     android:layout_width="228dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

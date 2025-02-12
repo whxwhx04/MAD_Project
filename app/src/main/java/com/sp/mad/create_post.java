@@ -36,10 +36,12 @@ public class create_post extends AppCompatActivity {
     private FirebaseUser currentUser;
 
     private static final int IMAGE_PICK_CODE = 1000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
+
         // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -51,6 +53,7 @@ public class create_post extends AppCompatActivity {
             finish();
             return;
         }
+
         // Initialize UI components
         uploadedImage = findViewById(R.id.uploaded_img);
         postDescription = findViewById(R.id.post_des);
@@ -59,8 +62,10 @@ public class create_post extends AppCompatActivity {
         uploadImageBtn = findViewById(R.id.post_img_up);
         createPostBtn = findViewById(R.id.create_post);
         backBtn = findViewById(R.id.back_comm);
+
         // Back button logic
         backBtn.setOnClickListener(v -> finish());
+
         // Set click listeners
         uploadImageBtn.setOnClickListener(view -> pickImage());
         createPostBtn.setOnClickListener(view -> {
@@ -86,6 +91,7 @@ public class create_post extends AppCompatActivity {
             uploadedImage.setImageURI(imageUri);
         }
     }
+
     private boolean validateInputs() {
         if (postDescription.getText().toString().trim().isEmpty() ||
                 postSchool.getSelectedItem().toString().equals("Select School") ||
@@ -95,6 +101,7 @@ public class create_post extends AppCompatActivity {
         }
         return true;
     }
+
     // Uploads image first, then stores listing data
     private void uploadImageAndSaveListing() {
         if (imageUri == null) {
@@ -119,22 +126,47 @@ public class create_post extends AppCompatActivity {
                     Toast.makeText(this, "Image upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
-        // Saves post details to Firestore
-        private void savePostToFirestore(String postId, String imageUrl) {
-            Map<String, Object> listingData = new HashMap<>();
-            listingData.put("id", postId);
-            listingData.put("userId", currentUser.getUid());
-            listingData.put("description", postDescription.getText().toString().trim());
-            listingData.put("school", postSchool.getSelectedItem().toString());
-            listingData.put("course", postCourse.getSelectedItem().toString());
-            listingData.put("imageUrl", imageUrl);  // Ensure image URL is stored
 
-            DocumentReference listingRef = db.collection("posts").document(postId);
-            listingRef.set(listingData)
-                    .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(this, "Post created successfully!", Toast.LENGTH_SHORT).show();
-                        finish();
-                    })
-                    .addOnFailureListener(e -> Toast.makeText(this, "Failed to create post", Toast.LENGTH_SHORT).show());
+    // Saves post details to Firestore and updates the user's updates subcollection
+    private void savePostToFirestore(String postId, String imageUrl) {
+        Map<String, Object> listingData = new HashMap<>();
+        listingData.put("id", postId);
+        listingData.put("userId", currentUser.getUid());
+        listingData.put("description", postDescription.getText().toString().trim());
+        listingData.put("school", postSchool.getSelectedItem().toString());
+        listingData.put("course", postCourse.getSelectedItem().toString());
+        listingData.put("imageUrl", imageUrl);  // Ensure image URL is stored
+
+        // Create the post document in the "posts" collection
+        DocumentReference listingRef = db.collection("posts").document(postId);
+        listingRef.set(listingData)
+                .addOnSuccessListener(aVoid -> {
+                    // After successfully creating the post, add it to the updates subcollection under the user's document
+                    addPostToUserUpdates(postId);
+
+                    Toast.makeText(this, "Post created successfully!", Toast.LENGTH_SHORT).show();
+                    finish();
+                })
+                .addOnFailureListener(e -> Toast.makeText(this, "Failed to create post", Toast.LENGTH_SHORT).show());
+    }
+
+    // Adds the post ID and timestamp to the updates subcollection under the user's document
+    private void addPostToUserUpdates(String postId) {
+        Map<String, Object> updateData = new HashMap<>();
+        updateData.put("postId", postId);
+        updateData.put("timestamp", System.currentTimeMillis());  // Save the current timestamp
+
+        // Add the post data to the user's "updates" subcollection
+        db.collection("users")
+                .document(currentUser.getUid())
+                .collection("updates")
+                .document(postId)  // Use the post ID as the document ID
+                .set(updateData)
+                .addOnSuccessListener(aVoid -> {
+                    // You could show a toast or handle success if needed
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to add post to user updates", Toast.LENGTH_SHORT).show();
+                });
     }
 }

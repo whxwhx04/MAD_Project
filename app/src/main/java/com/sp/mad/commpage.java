@@ -62,6 +62,7 @@ public class commpage extends AppCompatActivity {
                 startActivity(new Intent(commpage.this, create_listing.class));
                 return true;
             } else if (item.getItemId() == R.id.updates) {
+                startActivity(new Intent(commpage.this, updates_page.class));
                 return true;
             } else if (item.getItemId() == R.id.profile) {
                 startActivity(new Intent(commpage.this, profile_page.class));

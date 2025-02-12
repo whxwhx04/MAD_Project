@@ -66,7 +66,7 @@ public class mainpage extends AppCompatActivity {
                 } else if (id == R.id.nav_liked_posts) {
                     startActivity(new Intent(mainpage.this, liked_post.class));
                 } else if (id == R.id.nav_saved_items) {
-                    startActivity(new Intent(mainpage.this, mainpage.class));
+                    startActivity(new Intent(mainpage.this, saved_items.class));
                 } else if (id == R.id.nav_bid_ask) {
                     startActivity(new Intent(mainpage.this, mainpage.class));
                 } else if (id == R.id.nav_settings) {
@@ -129,6 +129,7 @@ public class mainpage extends AppCompatActivity {
                     startActivity(new Intent(mainpage.this, create_listing.class));
                     return true;
                 } else if (item.getItemId() == R.id.updates) {
+                    startActivity(new Intent(mainpage.this, updates_page.class));
                     return true;
                 } else if (item.getItemId() == R.id.profile) {
                     startActivity(new Intent(mainpage.this, profile_page.class));
@@ -162,7 +163,7 @@ public class mainpage extends AppCompatActivity {
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     String itemId = document.getId();
                     String title = document.getString("itemName");
-                    String price = "Price: " + document.getString("price");
+                    String price = "Price: $" + document.getString("price");
                     String imageUrl = document.getString("imageUrl");
                     String itemUserId = document.getString("userId");
 

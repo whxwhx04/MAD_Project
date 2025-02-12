@@ -136,7 +136,7 @@ public class create_listing extends AppCompatActivity {
                 });
     }
 
-    // Saves listing details to Firestore
+    // Saves listing details to Firestore and updates the user's updates subcollection
     private void saveListingToFirestore(String listingId, String imageUrl) {
         Map<String, Object> listingData = new HashMap<>();
         listingData.put("id", listingId);
@@ -152,9 +152,32 @@ public class create_listing extends AppCompatActivity {
         DocumentReference listingRef = db.collection("listing_items").document(listingId);
         listingRef.set(listingData)
                 .addOnSuccessListener(aVoid -> {
+                    // After successfully creating the listing, add it to the updates subcollection under the user's document
+                    addListingToUserUpdates(listingId);
+
                     Toast.makeText(this, "Listing created successfully!", Toast.LENGTH_SHORT).show();
                     finish();
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Failed to create listing", Toast.LENGTH_SHORT).show());
+    }
+
+    // Adds the listing ID and timestamp to the updates subcollection under the user's document
+    private void addListingToUserUpdates(String listingId) {
+        Map<String, Object> updateData = new HashMap<>();
+        updateData.put("listingId", listingId);
+        updateData.put("timestamp", System.currentTimeMillis());  // Save the current timestamp
+
+        // Add the listing data to the user's "updates" subcollection
+        db.collection("users")
+                .document(currentUser.getUid())
+                .collection("updates")
+                .document(listingId)  // Use the listing ID as the document ID
+                .set(updateData)
+                .addOnSuccessListener(aVoid -> {
+                    // You could show a toast or handle success if needed
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to add listing to user updates", Toast.LENGTH_SHORT).show();
+                });
     }
 }

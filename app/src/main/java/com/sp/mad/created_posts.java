@@ -33,15 +33,17 @@ public class created_posts extends AppCompatActivity {
         recyclerViewCreatedPosts = findViewById(R.id.recyclerViewCreatedPosts);
         backButton = findViewById(R.id.btn_back2);
 
-        // Set up RecyclerView
-        recyclerViewCreatedPosts.setLayoutManager(new LinearLayoutManager(this));
-        createdPostsList = new ArrayList<>();
-        postAdapter = new PostAdapter(createdPostsList, currentUserId);
-        recyclerViewCreatedPosts.setAdapter(postAdapter);
-
         // Get the current user ID from FirebaseAuth
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         currentUserId = mAuth.getCurrentUser().getUid(); // Fetch the current user's UID
+
+        // Set up RecyclerView
+        recyclerViewCreatedPosts.setLayoutManager(new LinearLayoutManager(this));
+        createdPostsList = new ArrayList<>();
+
+        // Pass the currentUserId to the PostAdapter
+        postAdapter = new PostAdapter(createdPostsList, currentUserId);
+        recyclerViewCreatedPosts.setAdapter(postAdapter);
 
         // Fetch created posts for the current user
         fetchCreatedPosts();

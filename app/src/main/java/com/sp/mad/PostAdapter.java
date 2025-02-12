@@ -56,6 +56,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     private void handleLikeButton(ViewHolder holder, Post post) {
         holder.likeButton.setOnClickListener(v -> {
+            // Check if the current user is trying to like their own post
+            if (post.getUserId().equals(currentUserId)) {
+                // Display a toast message if the user is trying to like their own post
+                Toast.makeText(v.getContext(), "Sorry, you can't like your own post.", Toast.LENGTH_SHORT).show();
+                return;  // Do not proceed with the like action
+            }
+
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
             String currentUserId = mAuth.getCurrentUser().getUid();

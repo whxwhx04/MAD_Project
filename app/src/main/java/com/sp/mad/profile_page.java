@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class profile_page extends AppCompatActivity {
-    private TextView accountName, userSchool, userCourse, likedPosts;
-    private ImageView profilePicture, accSet,likedPosts2;
+    private TextView accountName, userSchool, userCourse, likedPosts,savedItems;
+    private ImageView profilePicture, accSet,likedPosts2,savedItems2;
     private FirebaseAuth auth;
     private FirebaseFirestore db;
     private RecyclerView recyclerView;
@@ -50,11 +50,13 @@ public class profile_page extends AppCompatActivity {
         // Initialize click listeners for navigation
         likedPosts = findViewById(R.id.likedPosts);
         likedPosts2 = findViewById(R.id.likedPosts2);
-
+        savedItems = findViewById(R.id.savedItems);
+        savedItems2 = findViewById(R.id.savedItems2);
         // Set listeners to navigate to created_post page
-        likedPosts.setOnClickListener(v -> navigateToCreatedPost());
-        likedPosts2.setOnClickListener(v -> navigateToCreatedPost());
-
+        likedPosts.setOnClickListener(v -> navigateToLikedPost());
+        likedPosts2.setOnClickListener(v -> navigateToLikedPost());
+        savedItems.setOnClickListener(v -> navigateToSavedItems());
+        savedItems2.setOnClickListener(v -> navigateToSavedItems());
         // Load user information
         loadUserInfo();
 
@@ -80,6 +82,7 @@ public class profile_page extends AppCompatActivity {
                 startActivity(new Intent(profile_page.this, create_listing.class));
                 return true;
             } else if (item.getItemId() == R.id.updates) {
+                startActivity(new Intent(profile_page.this, updates_page.class));
                 return true;
             } else if (item.getItemId() == R.id.profile) {
                 startActivity(new Intent(profile_page.this, profile_page.class));
@@ -126,7 +129,7 @@ public class profile_page extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String itemId = document.getId(); // Fetch document ID
                                 String title = document.getString("itemName");
-                                String price = "Price: " + document.getString("price");
+                                String price = "Price: $" + document.getString("price");
                                 String imageUrl = document.getString("imageUrl");
                                 String itemUserId = document.getString("userId"); // Fetch userId
 
@@ -144,9 +147,12 @@ public class profile_page extends AppCompatActivity {
         }
     }
 
-    // Navigate to created_post activity
-    private void navigateToCreatedPost() {
+    private void navigateToLikedPost() {
         Intent intent = new Intent(profile_page.this, liked_post.class);
+        startActivity(intent);
+    }
+    private void navigateToSavedItems() {
+        Intent intent = new Intent(profile_page.this, saved_items.class);
         startActivity(intent);
     }
 }
