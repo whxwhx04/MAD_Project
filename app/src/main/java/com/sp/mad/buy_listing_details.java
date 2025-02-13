@@ -2,6 +2,7 @@ package com.sp.mad;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,7 +22,8 @@ public class buy_listing_details extends AppCompatActivity {
     private TextView listingTitle, listingPrice, listingBy, listingConditions, listingCategories, listingDescription;
     private ImageView listingImage, backBtn, btnSave;
     private FirebaseFirestore db;
-    private String itemId;
+    private String itemId,sellerId, buyerId;
+    private Button makeOfferBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +38,9 @@ public class buy_listing_details extends AppCompatActivity {
         listingConditions = findViewById(R.id.buyer_conditions);
         listingCategories = findViewById(R.id.listing_categories);
         listingDescription = findViewById(R.id.listing_description);
-        backBtn = findViewById(R.id.backBtn); // Initialize backBtn
-        btnSave = findViewById(R.id.btn_save); // Initialize the save button
+        backBtn = findViewById(R.id.backBtn);
+        makeOfferBtn = findViewById(R.id.btn_offer);
+        btnSave = findViewById(R.id.btn_save);
 
         // Set click listener for back button
         backBtn.setOnClickListener(v -> {
@@ -53,7 +56,19 @@ public class buy_listing_details extends AppCompatActivity {
 
         // Fetch data from Firestore
         fetchDataFromFirestore();
-
+        buyerId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        // Set click listener for "Make Offer" button
+        makeOfferBtn.setOnClickListener(v -> {
+            if (sellerId == null) {
+                Toast.makeText(buy_listing_details.this, "Error: Seller ID not available", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Intent chatIntent = new Intent(buy_listing_details.this, BuyerChatRoomActivity.class);
+            chatIntent.putExtra("buyerId", buyerId);
+            chatIntent.putExtra("sellerId", sellerId);
+            chatIntent.putExtra("itemId", itemId);
+            startActivity(chatIntent);
+        });
         // Handle save button functionality
         handleSaveButton();
     }
@@ -68,6 +83,7 @@ public class buy_listing_details extends AppCompatActivity {
                     String itemPrice = document.getString("price");
                     String itemImageUrl = document.getString("imageUrl");
                     String userId = document.getString("userId");
+                    sellerId = document.getString("userId"); // Fetch sellerId
                     String itemConditions = document.getString("condition");
                     String itemCategories = document.getString("school") + " - " + document.getString("course");
                     String itemDescription = document.getString("description");
@@ -81,7 +97,7 @@ public class buy_listing_details extends AppCompatActivity {
                     listingDescription.setText(itemDescription);
 
                     // Fetch username using userId
-                    fetchUsername(userId);
+                    fetchUsername(sellerId);
                 } else {
                     Toast.makeText(buy_listing_details.this, "Item not found", Toast.LENGTH_SHORT).show();
                 }

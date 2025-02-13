@@ -19,6 +19,18 @@
         android:theme="@style/Theme.MAD_project"
         tools:targetApi="31">
         <activity
+            android:name=".seller_all_chats"
+            android:exported="false" />
+        <activity
+            android:name=".SellerChatRoomActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChatListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BuyerChatRoomActivity"
+            android:exported="false" />
+        <activity
             android:name=".updates_page"
             android:exported="false" />
         <activity
@@ -29,9 +41,6 @@
             android:exported="false" />
         <activity
             android:name=".liked_post"
-            android:exported="false" />
-        <activity
-            android:name=".saveditems_page"
             android:exported="false" />
         <activity
             android:name=".saved_items"
@@ -62,9 +71,6 @@
             android:exported="false" />
         <activity
             android:name=".commfilter"
-            android:exported="false" />
-        <activity
-            android:name=".listing_category"
             android:exported="false" />
         <activity
             android:name=".create_listing"

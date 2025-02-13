@@ -19,10 +19,10 @@ import com.google.firebase.storage.StorageReference;
 public class sell_listing_details extends AppCompatActivity {
 
     private TextView listingTitle, listingPrice, listingBy, listingConditions, listingCategories, listingDescription;
-    private ImageView listingImage, backBtn;
+    private ImageView listingImage, backBtn,btnChat;
     private FirebaseFirestore db;
     private FirebaseStorage storage;
-    private String itemId;
+    private String itemId,sellerId, buyerId;
     private Button editButton, deleteButton;
 
     @Override
@@ -39,10 +39,12 @@ public class sell_listing_details extends AppCompatActivity {
         listingCategories = findViewById(R.id.seller_listing_categories);
         listingDescription = findViewById(R.id.seller_description);
         backBtn = findViewById(R.id.backBtn1);
+        btnChat = findViewById(R.id.btn_Chat);
         editButton = findViewById(R.id.btn_Edit);
         deleteButton = findViewById(R.id.btn_Delete);
 
         // Set listeners
+        btnChat.setOnClickListener(v -> openChatList());
         backBtn.setOnClickListener(v -> finish());
         editButton.setOnClickListener(v -> navigateToEditListing());
         deleteButton.setOnClickListener(v -> deleteListing());
@@ -53,16 +55,38 @@ public class sell_listing_details extends AppCompatActivity {
 
         // Get data from Intent
         itemId = getIntent().getStringExtra("itemId");
+        buyerId = getIntent().getStringExtra("buyerId");
+        sellerId = getIntent().getStringExtra("sellerId");
         if (itemId == null || itemId.isEmpty()) {
             Toast.makeText(this, "Error: No item ID found", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
-
+        btnChat.setOnClickListener(v -> {
+            if (sellerId == null || sellerId.isEmpty()) {
+                Toast.makeText(this, "Error: No seller ID found", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Intent intent = new Intent(this, ChatListActivity.class);
+            intent.putExtra("itemId", itemId);
+            intent.putExtra("sellerId", sellerId);  // Ensure sellerId is assigned from Firestore
+            intent.putExtra("buyerId", buyerId);
+            startActivity(intent);
+        });
         // Fetch data
         fetchDataFromFirestore();
     }
 
+    private void openChatList() {
+        if (itemId == null || itemId.isEmpty()) {
+            Toast.makeText(this, "Error: No item ID found", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // Navigate to ChatListActivity and pass the item ID
+        Intent intent = new Intent(this, ChatListActivity.class);
+        intent.putExtra("itemId", itemId);
+        startActivity(intent);
+    }
     private void fetchDataFromFirestore() {
         DocumentReference listingRef = db.collection("listing_items").document(itemId);
         listingRef.get().addOnCompleteListener(task -> {
@@ -74,6 +98,7 @@ public class sell_listing_details extends AppCompatActivity {
                 String itemPrice = document.getString("price");
                 String itemImageUrl = document.getString("imageUrl");  // This is the image URL
                 String userId = document.getString("userId");
+                sellerId = document.getString("userId"); // Get seller ID here
                 String itemConditions = document.getString("condition");
                 String itemCategories = document.getString("school") + " - " + document.getString("course");
                 String itemDescription = document.getString("description");
@@ -93,8 +118,8 @@ public class sell_listing_details extends AppCompatActivity {
                 }
 
                 // Fetch seller username
-                if (userId != null && !userId.isEmpty()) {
-                    fetchUsername(userId);
+                if (sellerId != null && !sellerId.isEmpty()) {
+                    fetchUsername(sellerId);
                 } else {
                     listingBy.setText("Unknown Seller");
                 }
@@ -168,7 +193,8 @@ public class sell_listing_details extends AppCompatActivity {
                         }
                     });
                 }
-            } else {
+            } else
+            {
                 Toast.makeText(sell_listing_details.this, "Error fetching item data", Toast.LENGTH_SHORT).show();
             }
         });
