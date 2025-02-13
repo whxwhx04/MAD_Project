@@ -28,12 +28,6 @@
             android:name=".liked_post"
             android:exported="false" />
         <activity
-            android:name=".saveditems_page"
-            android:exported="false" />
-        <activity
-            android:name=".saved_items"
-            android:exported="false" />
-        <activity
             android:name=".commpage"
             android:exported="false" />
         <activity
@@ -72,6 +66,15 @@
         <activity
             android:name=".reset_pwd"
             android:exported="false" />
+        <activity
+            android:name=".BuyerChatRoomActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ChatListActivity"
+            android:exported="true" />
+        <activity
+            android:name=".SellerChatRoomActivity"
+            android:exported="true" />
         <activity
             android:name=".create_account"
             android:exported="false" /> <!-- SplashScreen Activity -->

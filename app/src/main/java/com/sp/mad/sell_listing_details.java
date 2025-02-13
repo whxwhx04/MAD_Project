@@ -19,10 +19,10 @@ import com.google.firebase.storage.StorageReference;
 public class sell_listing_details extends AppCompatActivity {
 
     private TextView listingTitle, listingPrice, listingBy, listingConditions, listingCategories, listingDescription;
-    private ImageView listingImage, backBtn;
+    private ImageView listingImage, backBtn, btnChat;
     private FirebaseFirestore db;
     private FirebaseStorage storage;
-    private String itemId;
+    private String itemId, sellerId, buyerId;
     private Button editButton, deleteButton;
 
     @Override
@@ -39,10 +39,12 @@ public class sell_listing_details extends AppCompatActivity {
         listingCategories = findViewById(R.id.seller_listing_categories);
         listingDescription = findViewById(R.id.seller_description);
         backBtn = findViewById(R.id.backBtn1);
+        btnChat = findViewById(R.id.btn_Chat);
         editButton = findViewById(R.id.btn_Edit);
         deleteButton = findViewById(R.id.btn_Delete);
 
         // Set listeners
+        btnChat.setOnClickListener(v -> openChatList());
         backBtn.setOnClickListener(v -> finish());
         editButton.setOnClickListener(v -> navigateToEditListing());
         deleteButton.setOnClickListener(v -> deleteListing());
@@ -53,15 +55,44 @@ public class sell_listing_details extends AppCompatActivity {
 
         // Get data from Intent
         itemId = getIntent().getStringExtra("itemId");
+        buyerId = getIntent().getStringExtra("buyerId");
+        sellerId = getIntent().getStringExtra("sellerId");
         if (itemId == null || itemId.isEmpty()) {
             Toast.makeText(this, "Error: No item ID found", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
 
+        btnChat.setOnClickListener(v -> {
+            if (sellerId == null || sellerId.isEmpty()) {
+                Toast.makeText(this, "Error: No seller ID found", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Intent intent = new Intent(this, ChatListActivity.class);
+            intent.putExtra("itemId", itemId);
+            intent.putExtra("sellerId", sellerId);  // Ensure sellerId is assigned from Firestore
+            intent.putExtra("buyerId", buyerId);
+            startActivity(intent);
+        });
+
+
         // Fetch data
         fetchDataFromFirestore();
     }
+
+    private void openChatList() {
+        if (itemId == null || itemId.isEmpty()) {
+            Toast.makeText(this, "Error: No item ID found", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Navigate to ChatListActivity and pass the item ID
+        Intent intent = new Intent(this, ChatListActivity.class);
+        intent.putExtra("itemId", itemId);
+        startActivity(intent);
+    }
+
 
     private void fetchDataFromFirestore() {
         DocumentReference listingRef = db.collection("listing_items").document(itemId);
@@ -69,41 +100,58 @@ public class sell_listing_details extends AppCompatActivity {
             if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
                 DocumentSnapshot document = task.getResult();
 
-                // Retrieve data safely
+                // Retrieve data
                 String itemTitle = document.getString("itemName");
                 String itemPrice = document.getString("price");
-                String itemImageUrl = document.getString("imageUrl");  // This is the image URL
-                String userId = document.getString("userId");
+                String itemImageUrl = document.getString("imageUrl");
+                sellerId = document.getString("userId"); // Get seller ID here
                 String itemConditions = document.getString("condition");
                 String itemCategories = document.getString("school") + " - " + document.getString("course");
                 String itemDescription = document.getString("description");
 
-                // Set data with null checks
+                // Set data
                 listingTitle.setText(itemTitle != null ? itemTitle : "No Title");
                 listingPrice.setText(itemPrice != null ? "$" + itemPrice : "Price Unavailable");
                 listingConditions.setText(itemConditions != null ? itemConditions : "No Condition Info");
                 listingCategories.setText(itemCategories != null ? "Category: " + itemCategories : "No Category Info");
                 listingDescription.setText(itemDescription != null ? itemDescription : "No Description Available");
 
-                // Load image safely
+                // Load image
                 if (itemImageUrl != null && !itemImageUrl.isEmpty()) {
                     Glide.with(this).load(itemImageUrl).into(listingImage);
                 } else {
-                    listingImage.setImageResource(R.drawable.placeholder_image); // Ensure you have a placeholder image
+                    listingImage.setImageResource(R.drawable.placeholder_image);
                 }
 
                 // Fetch seller username
-                if (userId != null && !userId.isEmpty()) {
-                    fetchUsername(userId);
+                if (sellerId != null && !sellerId.isEmpty()) {
+                    fetchUsername(sellerId);
                 } else {
                     listingBy.setText("Unknown Seller");
                 }
+
+                // ✅ Move btnChat listener here to ensure sellerId is set before navigation
+                btnChat.setOnClickListener(v -> {
+                    if (sellerId == null || sellerId.isEmpty()) {
+                        Toast.makeText(this, "Error: No seller ID found", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    Intent intent = new Intent(this, ChatListActivity.class);
+                    intent.putExtra("itemId", itemId);
+                    intent.putExtra("sellerId", sellerId);
+                    intent.putExtra("buyerId", buyerId);
+                    startActivity(intent);
+                });
+
             } else {
                 Toast.makeText(this, "Item not found", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
     }
+
+
 
     private void fetchUsername(String userId) {
         DocumentReference userRef = db.collection("users").document(userId);

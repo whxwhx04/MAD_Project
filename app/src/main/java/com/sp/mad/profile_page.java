@@ -130,11 +130,12 @@ public class profile_page extends AppCompatActivity {
                                 String imageUrl = document.getString("imageUrl");
                                 String itemUserId = document.getString("userId"); // Fetch userId
 
-                                itemList.add(new Item(itemId, title, price, imageUrl, itemUserId)); // Now includes userId
+                                itemList.add(new Item(itemId, title, price, imageUrl, itemUserId));
+
                             }
 
                             // Set Adapter
-                            myAdapter = new MyAdapter(itemList, userId); // Pass current user's ID
+                            myAdapter = new MyAdapter(this, itemList, userId); // Pass current user's ID
                             recyclerView.setLayoutManager(new GridLayoutManager(this, 2)); // Set layout manager for RecyclerView
                             recyclerView.setAdapter(myAdapter); // Set the adapter to RecyclerView
                         } else {

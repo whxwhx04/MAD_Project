@@ -1,44 +1,42 @@
 package com.sp.mad;
 
-import java.io.Serializable;
-
-public class Item implements Serializable {
+public class Item {
     private String itemId;
     private String title;
     private String price;
-    private String imageUrl;
-    private String userId; // User ID to track item ownership
+    private String imageUrl; // Image URL from Firebase
+    private String userId; // User ID from Firebase
 
-    // Default constructor (required for Firebase deserialization)
-    public Item() {
-    }
 
-    // Parameterized constructor
+    // Constructor for Firestore data (ensuring correct assignments)
     public Item(String itemId, String title, String price, String imageUrl, String userId) {
         this.itemId = itemId;
         this.title = title;
         this.price = price;
-        this.imageUrl = imageUrl;
-        this.userId = userId;
+        this.imageUrl = imageUrl; // Ensure correct assignment
+        this.userId = userId; // Ensure correct assignment
     }
 
-    // Getter and Setter for itemId
-    public String getItemId() { return itemId; }
-    public void setItemId(String itemId) { this.itemId = itemId; }
+    // Getters
+    public String getItemId() {
+        return itemId;
+    }
 
-    // Getter and Setter for title
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    public String getTitle() {
+        return title;
+    }
 
-    // Getter and Setter for price
-    public String getPrice() { return price; }
-    public void setPrice(String price) { this.price = price; }
+    public String getPrice() {
+        return price;
+    }
 
-    // Getter and Setter for imageUrl
-    public String getImageUrl() { return imageUrl; }
-    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+    public String getImageUrl() {
+        return imageUrl;
+    }
 
-    // Getter and Setter for userId
-    public String getUserId() { return userId; }
-    public void setUserId(String userId) { this.userId = userId; }
+    public String getUserId() {
+        return userId;
+    }
+
+
 }

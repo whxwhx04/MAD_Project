@@ -160,9 +160,9 @@ public class mainpage extends AppCompatActivity {
             if (task.isSuccessful()) {
                 itemList.clear();
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    String itemId = document.getId();
+                    String itemId = document.getString("id");
                     String title = document.getString("itemName");
-                    String price = "Price: " + document.getString("price");
+                    String price = document.getString("price");;
                     String imageUrl = document.getString("imageUrl");
                     String itemUserId = document.getString("userId");
 
@@ -172,7 +172,7 @@ public class mainpage extends AppCompatActivity {
                 String currentUserId = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : null;
 
                 if (adapter == null) {
-                    adapter = new MyAdapter(itemList, currentUserId);
+                    adapter = new MyAdapter(this, itemList, currentUserId);
                     recyclerView.setAdapter(adapter);
                 } else {
                     adapter.notifyDataSetChanged();
@@ -183,3 +183,4 @@ public class mainpage extends AppCompatActivity {
         });
     }
 }
+

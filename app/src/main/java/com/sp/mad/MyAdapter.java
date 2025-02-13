@@ -1,5 +1,6 @@
 package com.sp.mad;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +18,12 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+    private Context context;
     private final List<Item> itemList;
     private final String currentUserId;
 
-    public MyAdapter(List<Item> itemList, String currentUserId) {
+    public MyAdapter(Context context, List<Item> itemList, String currentUserId) {
+        this.context = context;
         this.itemList = itemList;
         this.currentUserId = currentUserId; // Passed directly from profile_page
     }
